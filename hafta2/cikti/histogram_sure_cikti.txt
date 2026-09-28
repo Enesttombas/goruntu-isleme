@@ -1,0 +1,4 @@
+Histogram süre tablosu (20 tekrar, ortalama):
+1 thread | 0.006001 sn
+4 thread | 0.003788 sn
+Fark (4 - 1) | -0.002212 sn

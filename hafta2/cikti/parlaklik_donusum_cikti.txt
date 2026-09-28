@@ -1,0 +1,2 @@
+Ortalama parlaklık: önce 135.30, sonra 121.19
+Min/max: önce 0/255, sonra 20/211

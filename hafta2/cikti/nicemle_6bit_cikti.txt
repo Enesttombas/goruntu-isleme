@@ -1,0 +1,1 @@
+Benzersiz seviye: önce 256, sonra 64

@@ -1,0 +1,2 @@
+Ortalama süre (20 tekrar): 1 thread 0.007802 sn, 4 thread 0.005381 sn
+NumPy işlemleri GIL'i bırakır; küçük görüntüde thread açma maliyeti kazancı yiyebilir, sonucu ölçümle yorumlayın.

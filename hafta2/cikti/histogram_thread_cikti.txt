@@ -1,0 +1,1 @@
+4 parça histogramı birleşti; toplam piksel: 1705600; tam histogramla eşit.
