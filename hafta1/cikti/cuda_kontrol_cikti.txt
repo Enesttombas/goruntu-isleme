@@ -1,0 +1,4 @@
+Device 0:  "NVIDIA GeForce RTX 4080 Laptop GPU"  12282Mb, sm_89, Driver/Runtime ver.13.40/13.40
+OpenCV sürümü: 4.15.0-dev
+CUDA'lı cihaz sayısı: 1
+GPU-CPU en büyük fark: 0
