@@ -1,4 +1,4 @@
 dama.jpg: 1600x1066 -> 1024x768
 dikey.jpg: 1066x1600 -> 1024x768
 kucuk.png: 400x300 -> 1024x768
-3 dosya, 0.101 sn (CPU)
+3 dosya, 0.101 sn
