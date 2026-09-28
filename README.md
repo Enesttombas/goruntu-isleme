@@ -1,21 +1,15 @@
 # Görüntü İşleme (EBLG351) — Ödevler
 
-Python + OpenCV. Her hafta kendi klasöründe: kod, girdi görselleri ve çıktılar.
+Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe.
 
-| Hafta | Ödev | Dosya |
-|---|---|---|
-| 1 | CUDA destekli OpenCV kurulumu | [hafta1/1-cuda-kurulum.md](hafta1/1-cuda-kurulum.md), [hafta1/cuda_kontrol.py](hafta1/cuda_kontrol.py) |
-| 1 | Klasördeki resimleri 1024x768'e ölçekleme | [hafta1/resize_klasor.py](hafta1/resize_klasor.py) |
-| 2 | Nicemleme, çoklu thread parlaklık ve histogram | [hafta2/](hafta2/) |
+| Hafta | Ödev | Kod | Çıktı |
+|---|---|---|---|
+| 1 | CUDA destekli OpenCV kurulumu | [cuda_kontrol.py](hafta1/cuda_kontrol.py) | [cikti](hafta1/cikti/cuda_kontrol_cikti.txt) |
+| 1 | Klasördeki resimleri 1024x768'e ölçekleme | [resize_klasor.py](hafta1/resize_klasor.py) | [cikti](hafta1/cikti/) |
+| 2 | 8-bit → 6-bit nicemleme | [nicemle_6bit.py](hafta2/nicemle_6bit.py) | [6bit.png](hafta2/cikti/6bit.png) |
+| 2 | 4 parça × 4 thread parlaklık, 1 vs 4 thread süre | [parca_thread.py](hafta2/parca_thread.py) | [parca_sonuc.png](hafta2/cikti/parca_sonuc.png) |
+| 2 | Parça histogramları 4 thread ile, ana histogram | [histogram_thread.py](hafta2/histogram_thread.py) | [histogram.png](hafta2/cikti/histogram.png) |
+| 2 | Histogram: 1 thread vs 4 thread süre | [histogram_sure.py](hafta2/histogram_sure.py) | [süreler](hafta2/cikti/histogram_sure_cikti.txt) |
+| 2 | Parlaklık dönüşümü 0.75·x + 20 | [parlaklik_donusum.py](hafta2/parlaklik_donusum.py) | [karsilastirma.png](hafta2/cikti/karsilastirma.png) |
 
-## Çalıştırma
-
-```bash
-pip install opencv-python numpy pytest
-cd hafta1
-python cuda_kontrol.py              # CUDA'lı OpenCV gerekir
-python resize_klasor.py girdi cikti # --gpu ile CUDA sürümü
-python -m pytest -q
-```
-
-Ortam: RTX 4080 Laptop GPU, OpenCV 4.15.0-dev (CUDA ile derlenmiş), Python 3.14.
+Ortam: Python 3.14, OpenCV 4.15.0 (CUDA ile derlenmiş), RTX 4080 Laptop GPU.
