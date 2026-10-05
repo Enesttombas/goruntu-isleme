@@ -1,0 +1,2 @@
+dag.jpg: hist toplamı=1705600 CDF son=1705600, std 78.63 -> 74.65
+sis.jpg: hist toplamı=285696 CDF son=285696, std 37.28 -> 74.33

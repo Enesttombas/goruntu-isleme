@@ -1,0 +1,4 @@
+dag.jpg: min=0 max=237 -> min=0 max=255
+  ortalama 147.18 -> 158.34, std 78.63 -> 84.59
+sis.jpg: min=92 max=249 -> min=0 max=255
+  ortalama 195.99 -> 168.93, std 37.28 -> 60.60
