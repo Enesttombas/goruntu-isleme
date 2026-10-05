@@ -14,5 +14,6 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 3 | Histogram eşitleme | [odev2-histogram-esitleme](hafta3/odev2-histogram-esitleme/) | [cikti](hafta3/odev2-histogram-esitleme/cikti/) |
 | 3 | CLAHE | [odev3-clahe](hafta3/odev3-clahe/) | [cikti](hafta3/odev3-clahe/cikti/) |
 | 3 | 3x3 ortalama filtresi | [odev4-ortalama-filtre](hafta3/odev4-ortalama-filtre/) | [cikti](hafta3/odev4-ortalama-filtre/cikti/) |
+| 3 | 5x5 medyan filtresi (tuz-biber) | [odev5-medyan-filtre](hafta3/odev5-medyan-filtre/) | [cikti](hafta3/odev5-medyan-filtre/cikti/) |
 
 Ortam: Python 3.14, OpenCV 4.15.0, NumPy.
