@@ -2,7 +2,7 @@
 
 Adımlar: 256'lık histogram -> CDF -> eşitleme tablosu -> görüntüye uygula.
 Kullanım: python histogram_esitleme.py [girdi ...]
-Varsayılan: dag.jpg ve sis.jpg; çıktılar cikti/ klasörüne yazılır.
+Varsayılan: ../girdi/dag.jpg ve sis.jpg; çıktılar cikti/ klasörüne yazılır.
 """
 import argparse
 from pathlib import Path
@@ -11,6 +11,7 @@ import cv2
 import numpy as np
 
 KLASOR = Path(__file__).resolve().parent
+GIRDI = KLASOR.parent / "girdi"
 
 
 def histogram_cikar(gri):
@@ -72,7 +73,7 @@ def yan_yana(once, sonra):
 
 def main():
     ap = argparse.ArgumentParser(description="Histogram eşitleme.")
-    ap.add_argument("girdiler", nargs="*", type=Path, default=[KLASOR / "dag.jpg", KLASOR / "sis.jpg"])
+    ap.add_argument("girdiler", nargs="*", type=Path, default=[GIRDI / "dag.jpg", GIRDI / "sis.jpg"])
     args = ap.parse_args()
     cikti = KLASOR / "cikti"
     cikti.mkdir(exist_ok=True)
