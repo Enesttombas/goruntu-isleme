@@ -1,2 +1,0 @@
-dag.jpg: min=0 max=237 -> min=0 max=255
-sis.jpg: min=92 max=249 -> min=0 max=255

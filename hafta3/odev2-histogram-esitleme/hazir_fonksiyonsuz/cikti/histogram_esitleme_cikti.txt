@@ -1,4 +1,0 @@
-dag.jpg: piksel=1705600 hist toplamı=1705600 CDF son=1705600
-  min/max 0/237 -> 0/255, std 78.63 -> 74.65
-sis.jpg: piksel=285696 hist toplamı=285696 CDF son=285696
-  min/max 92/249 -> 0/255, std 37.28 -> 74.33
