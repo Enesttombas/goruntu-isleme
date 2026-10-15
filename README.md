@@ -15,8 +15,12 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 3 | CLAHE | [odev3-clahe](hafta3/odev3-clahe/) | [cikti](hafta3/odev3-clahe/cikti/) |
 | 3 | 3x3 ortalama filtresi | [odev4-ortalama-filtre](hafta3/odev4-ortalama-filtre/) | [cikti](hafta3/odev4-ortalama-filtre/cikti/) |
 | 3 | 5x5 medyan filtresi (tuz-biber) | [odev5-medyan-filtre](hafta3/odev5-medyan-filtre/) | [cikti](hafta3/odev5-medyan-filtre/cikti/) |
-| 4 | Prewitt ve Sobel gradyan operatörleri | [4.1-prewitt-sobel](hafta4/4.1-prewitt-sobel/) | [cikti](hafta4/4.1-prewitt-sobel/cikti/) |
-| 4 | 3x3 Laplacian ve 7x7 analitik LoG filtresi | [4.2-laplacian-log](hafta4/4.2-laplacian-log/) | [cikti](hafta4/4.2-laplacian-log/cikti/) |
-| 4 | OpenCV Canny ve filtre başarım karşılaştırması | [4.3-canny](hafta4/4.3-canny/) | [cikti](hafta4/4.3-canny/cikti/) |
+| 4 | Prewitt X gradyan operatörü | [4.1-prewitt-x](hafta4/4.1-prewitt-x/) | [cikti](hafta4/4.1-prewitt-x/cikti/) |
+| 4 | Prewitt Y gradyan operatörü | [4.2-prewitt-y](hafta4/4.2-prewitt-y/) | [cikti](hafta4/4.2-prewitt-y/cikti/) |
+| 4 | 3x3 Sobel gradyan operatörü | [4.3-sobel](hafta4/4.3-sobel/) | [cikti](hafta4/4.3-sobel/cikti/) |
+| 4 | Prewitt ve Sobel karşılaştırması | [4.4-prewitt-sobel-karsilastirma](hafta4/4.4-prewitt-sobel-karsilastirma/) | [cikti](hafta4/4.4-prewitt-sobel-karsilastirma/cikti/) |
+| 4 | 3x3 Laplacian kenar tespiti | [4.5-laplacian](hafta4/4.5-laplacian/) | [cikti](hafta4/4.5-laplacian/cikti/) |
+| 4 | 7x7 analitik LoG filtresi | [4.6-log](hafta4/4.6-log/) | [cikti](hafta4/4.6-log/cikti/) |
+| 4 | OpenCV Canny ve filtre başarım ölçümleri | [4.7-canny](hafta4/4.7-canny/) | [cikti](hafta4/4.7-canny/cikti/) |
 
 Ortam: Python 3.14, OpenCV 4.15.0, NumPy.

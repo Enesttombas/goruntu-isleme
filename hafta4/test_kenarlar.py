@@ -1,4 +1,10 @@
-"""EBLG351 Hafta 4 - Kenar Tespit Fonksiyonları Birim Testleri."""
+import sys
+from pathlib import Path
+
+# Repo kokunu import yoluna ekle
+_REPO_ROOT = Path(__file__).resolve().parent.parent
+if str(_REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(_REPO_ROOT))
 
 import numpy as np
 import pytest

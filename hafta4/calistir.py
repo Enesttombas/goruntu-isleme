@@ -1,10 +1,10 @@
 """EBLG351 Hafta 4 - Ana Çalıştırıcı Betik (calistir.py).
 
 Bu betik:
-1. Hafta 4'ün tüm alt ödevlerini (4.1, 4.2, 4.3) sırasıyla çalıştırır.
-2. Tüm filtre görsel çıktılarını (>= 12 PNG) ve karşılaştırma panolarını üretir.
+1. Hafta 4'ün 7 ödevini sırasıyla çalıştırır (4.1 - 4.7).
+2. Tüm filtre görsel çıktılarını (>= 12 PNG) ve panoları üretir.
 3. Çalışma süresi ve doğruluk ölçümlerini hafta4/cikti/olcumler.csv dosyasına kaydeder.
-4. hafta4/rapor_uret.py modülünü çağırarak KARSILASTIRMA.md ve tam 3 sayfalık KARSILASTIRMA.pdf belgelerini üretir.
+4. En son ölçüm verisiyle tum_raporlari_guncelle() fonksiyonunu çağırır.
 5. Bir özet çalıştırma raporunu hafta4/cikti/calisma_raporu.txt olarak kaydeder.
 """
 
@@ -22,6 +22,8 @@ for d in [str(repo_kok), str(hafta4_dizin)]:
     if d not in sys.path:
         sys.path.insert(0, d)
 
+from hafta4.rapor_uret import tum_raporlari_guncelle
+
 
 def calistir():
     t_basla = time.time()
@@ -35,33 +37,27 @@ def calistir():
     log(f"EBLG351 Hafta 4 Kenar Algoritmaları — Başlatıldı: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     log("=" * 65)
 
-    # 1. Ödev 4.1: Prewitt ve Sobel
-    log("\n[1/4] Ödev 4.1 (Prewitt & Sobel) çalıştırılıyor...")
-    t0 = time.time()
-    p41 = hafta4_dizin / "4.1-prewitt-sobel" / "cozum.py"
-    runpy.run_path(str(p41), run_name="__main__")
-    log(f"   -> 4.1 tamamlandı ({time.time() - t0:.2f} sn)")
+    gorevler = [
+        ("4.1-prewitt-x", "Ödev 4.1: Prewitt X Gradyan"),
+        ("4.2-prewitt-y", "Ödev 4.2: Prewitt Y Gradyan"),
+        ("4.3-sobel", "Ödev 4.3: 3x3 Sobel Gradyan"),
+        ("4.4-prewitt-sobel-karsilastirma", "Ödev 4.4: Prewitt-Sobel Karşılaştırması"),
+        ("4.5-laplacian", "Ödev 4.5: 3x3 Laplacian"),
+        ("4.6-log", "Ödev 4.6: 7x7 Analitik LoG"),
+        ("4.7-canny", "Ödev 4.7: Canny ve Ölçümler"),
+    ]
 
-    # 2. Ödev 4.2: Laplacian ve LoG
-    log("\n[2/4] Ödev 4.2 (Laplacian & LoG) çalıştırılıyor...")
-    t0 = time.time()
-    p42 = hafta4_dizin / "4.2-laplacian-log" / "cozum.py"
-    runpy.run_path(str(p42), run_name="__main__")
-    log(f"   -> 4.2 tamamlandı ({time.time() - t0:.2f} sn)")
+    for idx, (klasor, aciklama) in enumerate(gorevler, 1):
+        log(f"\n[{idx}/7] {aciklama} çalıştırılıyor...")
+        t0 = time.time()
+        p = hafta4_dizin / klasor / "cozum.py"
+        runpy.run_path(str(p), run_name="__main__")
+        log(f"   -> {klasor} tamamlandı ({time.time() - t0:.2f} sn)")
 
-    # 3. Ödev 4.3: Canny ve Tüm Ölçümler
-    log("\n[3/4] Ödev 4.3 (Canny & Ölçümler) çalıştırılıyor...")
+    log("\n[Raporlar] Tüm raporlar en son CSV ölçümleriyle güncelleniyor...")
     t0 = time.time()
-    p43 = hafta4_dizin / "4.3-canny" / "cozum.py"
-    runpy.run_path(str(p43), run_name="__main__")
-    log(f"   -> 4.3 tamamlandı ({time.time() - t0:.2f} sn)")
-
-    # 4. Rapor Üretimi (Markdown ve 3 Sayfa PDF)
-    log("\n[4/4] Raporlar üretiliyor (KARSILASTIRMA.md ve KARSILASTIRMA.pdf)...")
-    t0 = time.time()
-    rapor_script = hafta4_dizin / "rapor_uret.py"
-    runpy.run_path(str(rapor_script), run_name="__main__")
-    log(f"   -> Raporlar üretildi ({time.time() - t0:.2f} sn)")
+    tum_raporlari_guncelle()
+    log(f"   -> Raporlar güncellendi ({time.time() - t0:.2f} sn)")
 
     # Doğrulama kontrolleri
     genel_cikti = hafta4_dizin / "cikti"

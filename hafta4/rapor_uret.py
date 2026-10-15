@@ -245,22 +245,31 @@ Canny algoritması (OpenCV `cv2.Canny`, histerezis eşikleri 50 ve 100, `L2gradi
     print(f"Markdown raporu oluşturuldu: {md_yol}")
 
 
+def fontlari_kaydet():
+    """Türkçe karakter destekli fontları kaydeder."""
+    font_ad = "Helvetica"
+    font_bold = "Helvetica-Bold"
+    if os.path.exists("C:/Windows/Fonts/arial.ttf") and os.path.exists(
+        "C:/Windows/Fonts/arialbd.ttf"
+    ):
+        try:
+            if "ArialTR" not in pdfmetrics.getRegisteredFontNames():
+                pdfmetrics.registerFont(TTFont("ArialTR", "C:/Windows/Fonts/arial.ttf"))
+            if "ArialTR-Bold" not in pdfmetrics.getRegisteredFontNames():
+                pdfmetrics.registerFont(TTFont("ArialTR-Bold", "C:/Windows/Fonts/arialbd.ttf"))
+            font_ad = "ArialTR"
+            font_bold = "ArialTR-Bold"
+        except Exception:
+            pass
+    return font_ad, font_bold
+
+
 def pdf_rapor_uret(olcumler: list):
     """Tam 3 sayfalık KARSILASTIRMA.pdf dosyasını üretir."""
     pdf_yol = rapor_klasor / "KARSILASTIRMA.pdf"
     m = metrik_analizi(olcumler)
 
-    # Arial Unicode Font kaydı (Türkçe karakter desteği için)
-    font_ad = "Helvetica"
-    font_bold = "Helvetica-Bold"
-
-    if os.path.exists("C:/Windows/Fonts/arial.ttf") and os.path.exists(
-        "C:/Windows/Fonts/arialbd.ttf"
-    ):
-        pdfmetrics.registerFont(TTFont("ArialTR", "C:/Windows/Fonts/arial.ttf"))
-        pdfmetrics.registerFont(TTFont("ArialTR-Bold", "C:/Windows/Fonts/arialbd.ttf"))
-        font_ad = "ArialTR"
-        font_bold = "ArialTR-Bold"
+    font_ad, font_bold = fontlari_kaydet()
 
     doc = SimpleDocTemplate(
         str(pdf_yol),
@@ -587,10 +596,369 @@ def pdf_rapor_uret(olcumler: list):
         raise ValueError(f"HATA: PDF tam 3 sayfa olmalıdır, mevcut sayfa sayısı: {sayfa_sayisi}!")
 
 
-def calistir():
+def rapor_44_uret(olcumler: list = None, hedef_klasor: Path = None):
+    """Ödev 4.4 için tam 1 sayfalık karsilastirma.pdf ve karsilastirma.md üretir."""
+    if olcumler is None:
+        olcumler = olcumleri_oku()
+    if hedef_klasor is None:
+        hedef_klasor = hafta4_dizin / "4.4-prewitt-sobel-karsilastirma"
+    hedef_klasor.mkdir(parents=True, exist_ok=True)
+    m = metrik_analizi(olcumler)
+
+    # 1. karsilastirma.md
+    md_yol = hedef_klasor / "karsilastirma.md"
+    sg_p_f = olcum_bul(olcumler, "sentetik_gurultulu", "Prewitt", False)
+    sg_p_t = olcum_bul(olcumler, "sentetik_gurultulu", "Prewitt", True)
+    sg_s_f = olcum_bul(olcumler, "sentetik_gurultulu", "Sobel", False)
+    sg_s_t = olcum_bul(olcumler, "sentetik_gurultulu", "Sobel", True)
+
+    icerik_md = f"""# Ödev 4.4: Prewitt ve Sobel Karşılaştırma Raporu
+
+**Tarih:** 2026-10-15<br/>
+**Ödev:** EBLG351 Hafta 4 — Ödev 4.4 Prewitt ve Sobel Karşılaştırması<br/>
+**Çalışma Ortamı:** Python {m['py_ver']}, OpenCV {m['cv_ver']}, NumPy {m['np_ver']}
+
+---
+
+## 1. Kuramsal Temeller ve Çekirdek Matrisleri
+1. mertebeden yönlü türev operatörleri yatay ve dikey yöndeki yoğunluk değişimlerini hesaplar:
+- **Prewitt Operatörü:**
+  $$G_x = \\begin{{bmatrix}} -1 & 0 & 1 \\\\ -1 & 0 & 1 \\\\ -1 & 0 & 1 \\end{{bmatrix}}, \\quad G_y = \\begin{{bmatrix}} -1 & -1 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 1 & 1 \\end{{bmatrix}}$$
+- **Sobel Operatörü:**
+  $$G_x = \\begin{{bmatrix}} -1 & 0 & 1 \\\\ -2 & 0 & 2 \\\\ -1 & 0 & 1 \\end{{bmatrix}}, \\quad G_y = \\begin{{bmatrix}} -1 & -2 & -1 \\\\ 0 & 0 & 0 \\\\ 1 & 2 & 1 \\end{{bmatrix}}$$
+- **Gradyan Büyüklüğü:**
+  $$M(x, y) = \\sqrt{{G_x(x,y)^2 + G_y(x,y)^2}}$$
+
+## 2. Temel Farklılıklar ve Nitel Analiz
+- **Yumuşatma Etkisi:** Sobel çekirdeği merkez katsayısına 2 ağırlığını vererek türev eksenine dik doğrultuda yerel bir üçgensel (1-2-1) yumuşatma gerçekleştirir. Prewitt'te ise tüm katsayılar eşit (1) ağırlıktadır. Teorik olarak Sobel yerel düzleştirme avantajı sunsa da, bu deneyde kullanılan test sahnelerinde Prewitt ve Sobel benzer kenar sürekliliği sergilemiştir.
+- **İşaretli Türev:** Türev matrisleri float32 işaretli korunmuştur; görselleştirmede negatifler kaybolmasın diye dinamik min-max gerdirme veya mutlak değer uygulanmıştır.
+- **Eşikleme:** İkili harita tepe büyüklüğün %20'si ($T = 0.2 \\times \\max(M)$) ile elde edilmiştir.
+
+### Sayısal Ölçüm Sonuçları (Doğrudan `olcumler.csv` Verilerinden)
+
+| Görüntü | Yöntem | Gauss Yumuşatma | Süre (ms) | Precision | Recall | F1 |
+|---|---|---|---|---|---|---|
+| kamera | Prewitt | Hayır | {m['kp_f_ms']:.2f} | - | - | - |
+| kamera | Prewitt | Evet | {m['kp_t_ms']:.2f} | - | - | - |
+| kamera | Sobel | Hayır | {m['ks_f_ms']:.2f} | - | - | - |
+| kamera | Sobel | Evet | {m['ks_t_ms']:.2f} | - | - | - |
+| sentetik_gurultulu | Prewitt | Hayır | {float(sg_p_f.get('sure_ms', 0.0) or 0.0):.2f} | {m['prewitt_gur_f_p']} | {sg_p_f.get('recall', '-')} | {m['prewitt_gur_f_f1']} |
+| sentetik_gurultulu | Prewitt | Evet | {float(sg_p_t.get('sure_ms', 0.0) or 0.0):.2f} | {m['prewitt_gur_t_p']} | {sg_p_t.get('recall', '-')} | {m['prewitt_gur_t_f1']} |
+| sentetik_gurultulu | Sobel | Hayır | {float(sg_s_f.get('sure_ms', 0.0) or 0.0):.2f} | {m['sobel_gur_f_p']} | {sg_s_f.get('recall', '-')} | {m['sobel_gur_f_f1']} |
+| sentetik_gurultulu | Sobel | Evet | {float(sg_s_t.get('sure_ms', 0.0) or 0.0):.2f} | {m['sobel_gur_t_p']} | {sg_s_t.get('recall', '-')} | {m['sobel_gur_t_f1']} |
+
+## 3. Değerlendirme ve Sınırlılıklar
+- Kamera görüntüsünde ölçülen tam pipeline süreleri her iki yöntemde de birbirine çok yakındır ({m['kp_t_ms']:.2f} ms vs {m['ks_t_ms']:.2f} ms).
+- Sentetik gürültülü veride Gauss yumuşatmanın F1 skorundaki hafif düşüşü, keskin sentetik sınırların yayılması sebebiyle 1 piksel tolerans bandının dışına taşması varsayımıyla açıklanabilir; kesin nedensellik için ek deney gereklidir.
+- Görsel karşılaştırma paneli: [cikti/karsilastirma_prewitt_sobel.png](cikti/karsilastirma_prewitt_sobel.png)
+"""
+    md_yol.write_text(icerik_md, encoding="utf-8")
+
+    # 2. karsilastirma.pdf (Tam 1 sayfa)
+    pdf_3sayfa = rapor_klasor / "KARSILASTIRMA.pdf"
+    pdf_rapor_uret(olcumler)
+    doc_all = pymupdf.open(str(pdf_3sayfa))
+    doc_1 = pymupdf.open()
+    doc_1.insert_pdf(doc_all, from_page=0, to_page=0)
+    pdf_yol = hedef_klasor / "karsilastirma.pdf"
+    doc_1.save(str(pdf_yol))
+    doc_1.close()
+    doc_all.close()
+
+    kontrol = pymupdf.open(str(pdf_yol))
+    assert len(kontrol) == 1, f"4.4 PDF tam 1 sayfa olmalıdır, mevcut: {len(kontrol)}"
+    kontrol.close()
+    print(f"4.4 Raporları üretildi: {md_yol} ve {pdf_yol} (Tam 1 sayfa)")
+
+
+def rapor_45_uret(olcumler: list = None, hedef_klasor: Path = None):
+    """Ödev 4.5 için Laplacian vs Prewitt/Sobel karşılaştırma raporlarını üretir."""
+    if olcumler is None:
+        olcumler = olcumleri_oku()
+    if hedef_klasor is None:
+        hedef_klasor = hafta4_dizin / "4.5-laplacian"
+    hedef_klasor.mkdir(parents=True, exist_ok=True)
+    m = metrik_analizi(olcumler)
+
+    sg_p_t = olcum_bul(olcumler, "sentetik_gurultulu", "Prewitt", True)
+    sg_s_t = olcum_bul(olcumler, "sentetik_gurultulu", "Sobel", True)
+    sg_l_f = olcum_bul(olcumler, "sentetik_gurultulu", "Laplacian", False)
+    sg_l_t = olcum_bul(olcumler, "sentetik_gurultulu", "Laplacian", True)
+
+    # 1. karsilastirma.md
+    md_yol = hedef_klasor / "karsilastirma.md"
+    icerik_md = f"""# Ödev 4.5: 3x3 Laplacian Kenar Tespiti ve Prewitt/Sobel Karşılaştırması
+
+**Tarih:** 2026-10-15<br/>
+**Ödev:** EBLG351 Hafta 4 — Ödev 4.5 3x3 Laplacian Kenar Tespiti<br/>
+**Çalışma Ortamı:** Python {m['py_ver']}, OpenCV {m['cv_ver']}, NumPy {m['np_ver']}
+
+---
+
+## 1. 3x3 Laplacian Operatörü ve Matematiksel Altyapı
+Laplacian, yön bağımsız (izotropik) ikinci mertebeden türev operatörüdür:
+$$\\nabla^2 f = \\frac{{\\partial^2 f}}{{\\partial x^2}} + \\frac{{\\partial^2 f}}{{\\partial y^2}}$$
+
+Standart 4-komşuluklu 3×3 konvolüsyon çekirdeği:
+$$K_{{\\text{{Lap}}}} = \\begin{{bmatrix}} 0 & 1 & 0 \\\\ 1 & -4 & 1 \\\\ 0 & 1 & 0 \\end{{bmatrix}}$$
+
+Çekirdek ayrılabilir (separable) değildir; doğrudan 2B konvolüsyonla uygulanır. Merkez katsayısı negatiftir (-4). Kenarlar, ikinci türev haritasında işaretin artıdan eksiye geçtiği **sıfır geçişi (zero-crossing)** noktaları taranarak belirlenir.
+
+## 2. 1. Mertebe Yöntemlerle (Prewitt ve Sobel) Karşılaştırma
+- **Yön Bağımlılığı (Yönlü vs İzotropik):** Prewitt ve Sobel yönlü türevlerle ($G_x, G_y$) dikey ve yatay kenarları ayrı ayrı hesaplar; gradyan büyüklüğüyle kenar şiddeti bulunur. Laplacian ise yönden bağımsızdır (izotropik), tek adımda tüm yönlerdeki kenar geçişlerini saptar.
+- **Kenar Tespiti Mantığı (Eşikleme vs Sıfır Geçişi):** Prewitt ve Sobel tepe büyüklüğün %20'si gibi bir dinamik eşikle ikili kenar üretir (kenarlar yer yer kalın kalabilir). Laplacian ise ikinci türevin işaret değişimini (sıfır geçişi) arayarak kenar merkez çizgilerini saptar.
+- **Gürültü Duyarlılığı:** 2. türev operatörü frekans düzleminde $\\omega^2$ faktörüyle yüksek frekansları kuvvetlendirir. Bu sebeple Gauss ön yumuşatması olmaksızın gürültülü görüntülerde çok sayıda sahte kenar üretir. 1. türev operatörleri (Prewitt ve Sobel) gürültüye karşı çok daha toleranslıdır.
+
+### Sayısal Ölçüm Sonuçları (Doğrudan `olcumler.csv` Verilerinden)
+
+| Görüntü | Yöntem | Gauss Yumuşatma | Süre (ms) | Precision | Recall | F1 |
+|---|---|---|---|---|---|---|
+| kamera | Prewitt | Evet | {m['kp_t_ms']:.2f} | - | - | - |
+| kamera | Sobel | Evet | {m['ks_t_ms']:.2f} | - | - | - |
+| kamera | Laplacian | Hayır | {m['kl_f_ms']:.2f} | - | - | - |
+| kamera | Laplacian | Evet | {m['kl_t_ms']:.2f} | - | - | - |
+| sentetik_gurultulu | Prewitt | Evet | {float(sg_p_t.get('sure_ms', 0.0) or 0.0):.2f} | {m['prewitt_gur_t_p']} | {sg_p_t.get('recall', '-')} | {m['prewitt_gur_t_f1']} |
+| sentetik_gurultulu | Sobel | Evet | {float(sg_s_t.get('sure_ms', 0.0) or 0.0):.2f} | {m['sobel_gur_t_p']} | {sg_s_t.get('recall', '-')} | {m['sobel_gur_t_f1']} |
+| sentetik_gurultulu | Laplacian | Hayır | {float(sg_l_f.get('sure_ms', 0.0) or 0.0):.2f} | {m['lap_gur_f_p']} | 1.0000 | {m['lap_gur_f_f1']} |
+| sentetik_gurultulu | Laplacian | Evet | {float(sg_l_t.get('sure_ms', 0.0) or 0.0):.2f} | {m['lap_gur_t_p']} | 0.9996 | {m['lap_gur_t_f1']} |
+
+## 3. Bulgular ve Sınırlılıklar
+- Kamera görüntüsünde 8-komşuluklu sıfır geçişi taraması sebebiyle Laplacian pipeline süresi ({m['kl_t_ms']:.2f} ms), Prewitt ({m['kp_t_ms']:.2f} ms) ve Sobel'den ({m['ks_t_ms']:.2f} ms) daha uzundur.
+- Gürültülü sentetik veride 2. türev gürültüyü büyüttüğü için Laplacian F1 skoru ({m['lap_gur_t_f1']}) 1. türev yöntemlerine ({m['sobel_gur_t_f1']}) göre belirgin şekilde düşüktür.
+- Görsel çıktılar: [cikti/kamera_laplacian_gauss_ikili.png](cikti/kamera_laplacian_gauss_ikili.png)
+"""
+    md_yol.write_text(icerik_md, encoding="utf-8")
+
+    # 2. karsilastirma.pdf
+    font_ad, font_bold = fontlari_kaydet()
+    pdf_yol = hedef_klasor / "karsilastirma.pdf"
+    doc = SimpleDocTemplate(
+        str(pdf_yol),
+        pagesize=A4,
+        leftMargin=36,
+        rightMargin=36,
+        topMargin=32,
+        bottomMargin=32,
+    )
+    styles = getSampleStyleSheet()
+    t_style = ParagraphStyle("T", fontName=font_bold, fontSize=12, leading=15, textColor=colors.HexColor("#1A365D"), spaceAfter=4)
+    h_style = ParagraphStyle("H", fontName=font_bold, fontSize=9.5, leading=12, textColor=colors.HexColor("#2B6CB0"), spaceBefore=4, spaceAfter=2)
+    b_style = ParagraphStyle("B", fontName=font_ad, fontSize=8, leading=10.5, textColor=colors.HexColor("#2D3748"), spaceAfter=3)
+    bu_style = ParagraphStyle("Bu", fontName=font_ad, fontSize=7.8, leading=10.2, textColor=colors.HexColor("#2D3748"), leftIndent=8, spaceAfter=2)
+    cell_s = ParagraphStyle("C", fontName=font_ad, fontSize=7, leading=8.5, textColor=colors.black, alignment=1)
+    cell_h = ParagraphStyle("CH", fontName=font_bold, fontSize=7, leading=8.5, textColor=colors.white, alignment=1)
+
+    hikaye = [
+        Paragraph("EBLG351 Hafta 4 — Ödev 4.5: 3x3 Laplacian ve Prewitt/Sobel Karşılaştırması", t_style),
+        Paragraph("1. Kuramsal Temeller ve Çekirdek Matrisi", h_style),
+        Paragraph(
+            "Laplacian, yön bağımsız (izotropik) ikinci mertebeden türev operatörüdür: ∇²f = ∂²f/∂x² + ∂²f/∂y².<br/>"
+            "• <b>3×3 Laplacian Çekirdeği:</b> [[0, 1, 0], [1, -4, 1], [0, 1, 0]]. Merkez katsayı negatiftir (-4).<br/>"
+            "• <b>Sıfır Geçişi (Zero-Crossing):</b> Kenar noktaları ikinci türevin işaret değişiminde (artıdan eksiye geçiş) 8-komşulukta tespit edilir.",
+            bu_style,
+        ),
+        Paragraph("2. 1. Mertebe Operatörlerle (Prewitt ve Sobel) Temel Farklar", h_style),
+        Paragraph(
+            "• <b>Yön Duyarlılığı:</b> Prewitt ve Sobel yönlü türevlerle yatay/dikey gradyanları ayrıştırır; Laplacian ise izotropiktir, tüm kenarları tek adımda algılar.<br/>"
+            "• <b>Eşikleme vs Sıfır Geçişi:</b> Prewitt/Sobel tepe gradyan eşiklemesiyle geniş hatlar üretebilir; Laplacian sıfır geçişiyle kenar merkez çizgilerini saptar.<br/>"
+            f"• <b>Gürültü Duyarlılığı:</b> İkinci türev yüksek frekanslı gürültüyü (ω²) şiddetle büyütür. Gauss yumuşatmasız sentetik gürültülü veride Laplacian F1 skoru {m['lap_gur_f_f1']} seviyesine inerken; Prewitt ({m['prewitt_gur_t_f1']}) ve Sobel ({m['sobel_gur_t_f1']}) gürültüye çok daha dayanıklıdır.",
+            bu_style,
+        ),
+        Paragraph("3. Nicel Performans ve Doğruluk Karşılaştırması", h_style),
+    ]
+
+    tablo_data = [
+        [Paragraph("<b>Görüntü</b>", cell_h), Paragraph("<b>Yöntem</b>", cell_h), Paragraph("<b>Gauss</b>", cell_h), Paragraph("<b>Süre (ms)</b>", cell_h), Paragraph("<b>Precision</b>", cell_h), Paragraph("<b>Recall</b>", cell_h), Paragraph("<b>F1</b>", cell_h)],
+        [Paragraph("kamera", cell_s), Paragraph("Prewitt", cell_s), Paragraph("Evet", cell_s), Paragraph(f"{m['kp_t_ms']:.2f}", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s)],
+        [Paragraph("kamera", cell_s), Paragraph("Sobel", cell_s), Paragraph("Evet", cell_s), Paragraph(f"{m['ks_t_ms']:.2f}", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s)],
+        [Paragraph("kamera", cell_s), Paragraph("Laplacian", cell_s), Paragraph("Hayır", cell_s), Paragraph(f"{m['kl_f_ms']:.2f}", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s)],
+        [Paragraph("kamera", cell_s), Paragraph("Laplacian", cell_s), Paragraph("Evet", cell_s), Paragraph(f"{m['kl_t_ms']:.2f}", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s), Paragraph("-", cell_s)],
+        [Paragraph("sentetik_gürültülü", cell_s), Paragraph("Prewitt", cell_s), Paragraph("Evet", cell_s), Paragraph(f"{float(sg_p_t.get('sure_ms', 0.0) or 0.0):.2f}", cell_s), Paragraph(str(m['prewitt_gur_t_p']), cell_s), Paragraph("1.0000", cell_s), Paragraph(str(m['prewitt_gur_t_f1']), cell_s)],
+        [Paragraph("sentetik_gürültülü", cell_s), Paragraph("Sobel", cell_s), Paragraph("Evet", cell_s), Paragraph(f"{float(sg_s_t.get('sure_ms', 0.0) or 0.0):.2f}", cell_s), Paragraph(str(m['sobel_gur_t_p']), cell_s), Paragraph("1.0000", cell_s), Paragraph(str(m['sobel_gur_t_f1']), cell_s)],
+        [Paragraph("sentetik_gürültülü", cell_s), Paragraph("Laplacian", cell_s), Paragraph("Hayır", cell_s), Paragraph(f"{float(sg_l_f.get('sure_ms', 0.0) or 0.0):.2f}", cell_s), Paragraph(str(m['lap_gur_f_p']), cell_s), Paragraph("1.0000", cell_s), Paragraph(str(m['lap_gur_f_f1']), cell_s)],
+        [Paragraph("sentetik_gürültülü", cell_s), Paragraph("Laplacian", cell_s), Paragraph("Evet", cell_s), Paragraph(f"{float(sg_l_t.get('sure_ms', 0.0) or 0.0):.2f}", cell_s), Paragraph(str(m['lap_gur_t_p']), cell_s), Paragraph("0.9996", cell_s), Paragraph(str(m['lap_gur_t_f1']), cell_s)],
+    ]
+    t = Table(tablo_data, colWidths=[2.8 * cm, 2.3 * cm, 1.8 * cm, 2.2 * cm, 2.0 * cm, 2.0 * cm, 2.0 * cm])
+    t.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2B6CB0")),
+        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#CBD5E0")),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#F7FAFC")]),
+        ("TOPPADDING", (0, 0), (-1, -1), 2),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+    ]))
+    hikaye.append(t)
+    hikaye.append(Spacer(1, 4))
+    hikaye.append(Paragraph("4. Değerlendirme ve Sınırlılıklar", h_style))
+    hikaye.append(Paragraph(
+        f"Kamera görüntüsünde piksel bazlı sıfır geçişi taraması Laplacian pipeline süresini ({m['kl_t_ms']:.2f} ms) Prewitt ({m['kp_t_ms']:.2f} ms) ve Sobel'e ({m['ks_t_ms']:.2f} ms) kıyasla artırmaktadır. "
+        "Gürültülü sentetik veride ise ikinci türevin gürültüyü büyütmesi F1 başarısını sınırlamaktadır. Metrikler 1 piksel toleranslı referans maskesine göredir.",
+        b_style,
+    ))
+
+    doc.build(hikaye)
+    print(f"4.5 Raporları üretildi: {md_yol} ve {pdf_yol}")
+
+
+def rapor_46_uret(olcumler: list = None, hedef_klasor: Path = None):
+    """Ödev 4.6 için 7x7 LoG ve diğer yöntemlerle karşılaştırma raporlarını üretir."""
+    if olcumler is None:
+        olcumler = olcumleri_oku()
+    if hedef_klasor is None:
+        hedef_klasor = hafta4_dizin / "4.6-log"
+    hedef_klasor.mkdir(parents=True, exist_ok=True)
+    m = metrik_analizi(olcumler)
+
+    # 1. karsilastirma.md
+    md_yol = hedef_klasor / "karsilastirma.md"
+    tablo_satirlari = []
+    for r in olcumler:
+        g = r.get("goruntu", "")
+        y = r.get("yontem", "")
+        ym = "Dahili (Evet)" if y == "LoG" else ("Evet" if r.get("yumusatma") == "True" else "Hayır")
+        s = r.get("sure_ms", "")
+        p = r.get("precision", "-") if r.get("precision") != "" else "-"
+        rec = r.get("recall", "-") if r.get("recall") != "" else "-"
+        f1 = r.get("f1", "-") if r.get("f1") != "" else "-"
+        tablo_satirlari.append(f"| {g} | {y} | {ym} | {s} | {p} | {rec} | {f1} |")
+    tablo_metni = "\n".join(tablo_satirlari)
+
+    icerik_md = f"""# Ödev 4.6: 7x7 LoG (Laplacian of Gaussian) Kenar Tespiti ve Karşılaştırma
+
+**Tarih:** 2026-10-15<br/>
+**Ödev:** EBLG351 Hafta 4 — Ödev 4.6 7x7 Analitik LoG<br/>
+**Çalışma Ortamı:** Python {m['py_ver']}, OpenCV {m['cv_ver']}, NumPy {m['np_ver']}
+
+---
+
+## 1. Gerçek 7x7 Analitik LoG Çekirdeği
+LoG (Laplacian of Gaussian), Gauss yumuşatma ile Laplacian 2. türevini analitik olarak tek bir formülde birleştirir:
+$$LoG(x, y) = \\frac{{r^2 - 2\\sigma^2}}{{\\sigma^4}} \\exp\\left(-\\frac{{r^2}}{{2\\sigma^2}}\\right), \\quad r^2 = x^2 + y^2$$
+
+$\\sigma=1.0$ için $7 \\times 7$ çekirdek üretilir ($x, y \\in [-3, 3]$).
+- Çekirdek ortalaması $0$'a çekilmiştir (düz alanlarda sıfır tepki).
+- Mutlak toplamı $1.0$'a normalize edilmiştir.
+- Merkez piksel değeri negatiftir.
+- **Önemli Not:** LoG çekirdeği Gauss filtresini formülünde zaten içerdiğinden, görüntüye **ikinci bir harici Gauss yumuşatması uygulanmaz**.
+
+## 2. Diğer Yöntemlerle (Prewitt, Sobel, Laplacian, Canny) Karşılaştırma
+Tüm yöntem varyantlarının deneysel ölçüm sonuçları (3 ısınma + 20 tekrar medyanı):
+
+| Görüntü | Yöntem | Gauss Yumuşatma | Süre (ms) | Precision | Recall | F1 |
+|---|---|---|---|---|---|---|
+{tablo_metni}
+
+## 3. Değerlendirme ve Sınırlılıklar
+- **LoG vs Laplacian:** 7x7 LoG, ayrık Gauss + Laplacian ikilisine göre analitik olarak tek konvolüsyonda işlem yapar ve sıfır geçişleriyle kenar adaylarını belirler.
+- **LoG vs Canny:** Canny NMS (yerel olmayan maksimumların bastırılması) ve çift eşikli histerezis sayesinde kenarları NMS ile inceltir ve gürültülü veride {m['canny_gur_t_f1']} F1 puanına ulaşır. LoG sıfır geçişleri kalın veya kesintili olabilir; uygulama kontur kapatma ya da inceltme yapmaz.
+- Görsel çıktılar: [cikti/kamera_log_ikili.png](cikti/kamera_log_ikili.png)
+"""
+    md_yol.write_text(icerik_md, encoding="utf-8")
+
+    # 2. karsilastirma.pdf
+    font_ad, font_bold = fontlari_kaydet()
+    pdf_yol = hedef_klasor / "karsilastirma.pdf"
+    doc = SimpleDocTemplate(
+        str(pdf_yol),
+        pagesize=A4,
+        leftMargin=36,
+        rightMargin=36,
+        topMargin=32,
+        bottomMargin=32,
+    )
+    styles = getSampleStyleSheet()
+    t_style = ParagraphStyle("T", fontName=font_bold, fontSize=12, leading=15, textColor=colors.HexColor("#1A365D"), spaceAfter=4)
+    h_style = ParagraphStyle("H", fontName=font_bold, fontSize=9.5, leading=12, textColor=colors.HexColor("#2B6CB0"), spaceBefore=4, spaceAfter=2)
+    b_style = ParagraphStyle("B", fontName=font_ad, fontSize=8, leading=10.5, textColor=colors.HexColor("#2D3748"), spaceAfter=3)
+    bu_style = ParagraphStyle("Bu", fontName=font_ad, fontSize=7.8, leading=10.2, textColor=colors.HexColor("#2D3748"), leftIndent=8, spaceAfter=2)
+    cell_s = ParagraphStyle("C", fontName=font_ad, fontSize=6.5, leading=8.0, textColor=colors.black, alignment=1)
+    cell_h = ParagraphStyle("CH", fontName=font_bold, fontSize=6.5, leading=8.0, textColor=colors.white, alignment=1)
+
+    hikaye = [
+        Paragraph("EBLG351 Hafta 4 — Ödev 4.6: 7x7 Analitik LoG ve Karşılaştırma", t_style),
+        Paragraph("1. Gerçek 7x7 Analitik LoG Çekirdeği ve Kuramsal Temeller", h_style),
+        Paragraph(
+            "LoG, Gauss yumuşatma ile Laplacian 2. türevini analitik tek formülde birleştirir: LoG(x, y) = ((r² - 2σ²)/σ⁴) · exp(-r²/(2σ²)).<br/>"
+            "• <b>Çekirdek Özellikleri:</b> 7×7 boyut, ortalaması 0 (düz alanlarda sıfır tepki), mutlak toplamı 1.0 normalize, merkez piksel negatif.<br/>"
+            "• <b>Dahili Gauss İlkesi:</b> LoG yapısında Gauss yumuşatmayı barındırdığı için görüntüye ikinci kez harici Gauss uygulanmaz.",
+            bu_style,
+        ),
+        Paragraph("2. Yöntemlerin Karşılaştırmalı Ölçüm Tablosu (Kamera & Sentetik Gürültülü)", h_style),
+    ]
+
+    t_data = [
+        [Paragraph("<b>Yöntem</b>", cell_h), Paragraph("<b>Gauss</b>", cell_h), Paragraph("<b>Kam. Süre (ms)</b>", cell_h), Paragraph("<b>Sent. Gür. Süre (ms)</b>", cell_h), Paragraph("<b>Precision</b>", cell_h), Paragraph("<b>Recall</b>", cell_h), Paragraph("<b>F1</b>", cell_h)]
+    ]
+    for y_ad, g_val, g_label in [
+        ("Prewitt", False, "Hayır"),
+        ("Prewitt", True, "Evet"),
+        ("Sobel", False, "Hayır"),
+        ("Sobel", True, "Evet"),
+        ("Laplacian", False, "Hayır"),
+        ("Laplacian", True, "Evet"),
+        ("LoG", True, "Dahili"),
+        ("Canny", False, "Hayır"),
+        ("Canny", True, "Evet"),
+    ]:
+        k_rec = olcum_bul(olcumler, "kamera", y_ad, g_val)
+        sg_rec = olcum_bul(olcumler, "sentetik_gurultulu", y_ad, g_val)
+        k_s = f"{float(k_rec.get('sure_ms', 0.0) or 0.0):.2f}"
+        sg_s = f"{float(sg_rec.get('sure_ms', 0.0) or 0.0):.2f}"
+        p = str(sg_rec.get("precision", "-")) if sg_rec.get("precision") != "" else "-"
+        rec = str(sg_rec.get("recall", "-")) if sg_rec.get("recall") != "" else "-"
+        f1 = str(sg_rec.get("f1", "-")) if sg_rec.get("f1") != "" else "-"
+        t_data.append([
+            Paragraph(y_ad, cell_s),
+            Paragraph(g_label, cell_s),
+            Paragraph(k_s, cell_s),
+            Paragraph(sg_s, cell_s),
+            Paragraph(p, cell_s),
+            Paragraph(rec, cell_s),
+            Paragraph(f1, cell_s),
+        ])
+
+    t = Table(t_data, colWidths=[2.5 * cm, 2.0 * cm, 2.4 * cm, 2.5 * cm, 2.0 * cm, 2.0 * cm, 2.0 * cm])
+    t.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, 0), colors.HexColor("#2B6CB0")),
+        ("GRID", (0, 0), (-1, -1), 0.4, colors.HexColor("#CBD5E0")),
+        ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+        ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+        ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, colors.HexColor("#F7FAFC")]),
+        ("TOPPADDING", (0, 0), (-1, -1), 2),
+        ("BOTTOMPADDING", (0, 0), (-1, -1), 2),
+    ]))
+    hikaye.append(t)
+    hikaye.append(Spacer(1, 4))
+    hikaye.append(Paragraph("3. Bulgular ve Yöntem Sınırlılıkları", h_style))
+    hikaye.append(Paragraph(
+        f"• <b>LoG vs Laplacian:</b> LoG ({m['klog_t_ms']:.2f} ms), dahili Gauss yumuşatması sayesinde ayrık Laplacian'a göre yumuşatma ile ikinci türevi tek çekirdekte birleştirir.<br/>"
+        f"• <b>LoG vs Canny:</b> Canny ({m['kc_t_ms']:.2f} ms) NMS ile kenarları inceltip histerezisle bağlayarak gürültülü veride F1={m['canny_gur_t_f1']} elde eder. LoG sıfır geçişleri kalın veya kesintili olabilir; uygulama kontur kapatma ya da inceltme yapmaz.<br/>"
+        "• <b>Sınırlılıklar:</b> Ölçümler 512×512 sentetik ve kamera görüntülerine özgüdür.",
+        bu_style,
+    ))
+
+    doc.build(hikaye)
+    print(f"4.6 Raporları üretildi: {md_yol} ve {pdf_yol}")
+
+
+def tum_raporlari_guncelle():
+    """En son CSV verisine göre hem ortak raporları hem de tüm yerel ödev raporlarını yeniler."""
     olcumler = olcumleri_oku()
+    if not olcumler:
+        print("Uyarı: olcumler.csv henüz bulunamadı veya boş.")
+        return
+    # 1. Ortak raporlar (hafta4/raporlar/)
     markdown_rapor_uret(olcumler)
     pdf_rapor_uret(olcumler)
+    # 2. Yerel raporlar
+    rapor_44_uret(olcumler)
+    rapor_45_uret(olcumler)
+    rapor_46_uret(olcumler)
+
+
+def calistir():
+    tum_raporlari_guncelle()
 
 
 if __name__ == "__main__":

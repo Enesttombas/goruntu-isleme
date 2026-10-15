@@ -1,24 +1,36 @@
 =================================================================
-EBLG351 Hafta 4 Kenar Algoritmaları — Başlatıldı: 2026-10-15 13:01:26
+EBLG351 Hafta 4 Kenar Algoritmaları — Başlatıldı: 2026-10-15 13:31:37
 =================================================================
 
-[1/4] Ödev 4.1 (Prewitt & Sobel) çalıştırılıyor...
-   -> 4.1 tamamlandı (0.86 sn)
+[1/7] Ödev 4.1: Prewitt X Gradyan çalıştırılıyor...
+   -> 4.1-prewitt-x tamamlandı (0.11 sn)
 
-[2/4] Ödev 4.2 (Laplacian & LoG) çalıştırılıyor...
-   -> 4.2 tamamlandı (0.24 sn)
+[2/7] Ödev 4.2: Prewitt Y Gradyan çalıştırılıyor...
+   -> 4.2-prewitt-y tamamlandı (0.07 sn)
 
-[3/4] Ödev 4.3 (Canny & Ölçümler) çalıştırılıyor...
-   -> 4.3 tamamlandı (4.30 sn)
+[3/7] Ödev 4.3: 3x3 Sobel Gradyan çalıştırılıyor...
+   -> 4.3-sobel tamamlandı (0.13 sn)
 
-[4/4] Raporlar üretiliyor (KARSILASTIRMA.md ve KARSILASTIRMA.pdf)...
-   -> Raporlar üretildi (0.71 sn)
+[4/7] Ödev 4.4: Prewitt-Sobel Karşılaştırması çalıştırılıyor...
+   -> 4.4-prewitt-sobel-karsilastirma tamamlandı (0.19 sn)
+
+[5/7] Ödev 4.5: 3x3 Laplacian çalıştırılıyor...
+   -> 4.5-laplacian tamamlandı (0.21 sn)
+
+[6/7] Ödev 4.6: 7x7 Analitik LoG çalıştırılıyor...
+   -> 4.6-log tamamlandı (0.13 sn)
+
+[7/7] Ödev 4.7: Canny ve Ölçümler çalıştırılıyor...
+   -> 4.7-canny tamamlandı (5.24 sn)
+
+[Raporlar] Tüm raporlar en son CSV ölçümleriyle güncelleniyor...
+   -> Raporlar güncellendi (0.20 sn)
 
 =================================================================
 KONTROL VE DOĞRULAMA:
 • Üretilen PNG görsel sayısı (hafta4/cikti/): 25 (Hedef: >= 12)
-• Ölçüm CSV dosyası mevcut mu: True (1307 bayt)
+• Ölçüm CSV dosyası mevcut mu: True (1311 bayt)
 • Markdown raporu mevcut mu: True
 • PDF raporu mevcut mu: True | Sayfa sayısı: 3 (Hedef: 3)
-• Toplam çalışma süresi: 6.12 sn
+• Toplam çalışma süresi: 6.29 sn
 =================================================================

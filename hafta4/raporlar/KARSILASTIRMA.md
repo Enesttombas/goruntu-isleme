@@ -23,7 +23,7 @@
 - **Yumuşatma Etkisi ve Gürültü Davranışı:** Sobel çekirdeği merkez katsayısına $2$ ağırlığını vererek türev eksenine dik doğrultuda yerel bir üçgensel (1-2-1) yumuşatma gerçekleştirir. Prewitt'te ise tüm katsayılar eşit ($1$) ağırlıktadır. Teorik olarak Sobel yerel düzleştirme avantajı sunsa da, bu deneyde kullanılan test sahnelerinde Prewitt ve Sobel benzer kenar sürekliliği ve gürültü davranışı sergilemiştir; bu çalışma tek başına genel bir 'üstünlük' iddiası olarak yorumlanamaz.
 - **Türev İşareti ve Görselleştirme:** Türev matrisleri işaretli (float32) üretilmiştir. Görselleştirmede negatif değerleri sıfıra kırpmak yerine doğrusal gerdirme (min-max normalization) veya mutlak değer alınarak tüm gradyan yönleri eksiksiz korunmuştur.
 - **İkili Eşikleme Sınırlılığı:** İkili kenar haritası tepe gradyanın %20'si ($T = 0.2 \times \max(M)$) ile üretilmiştir. Bu dinamik ölçekleme sabit resimlerde doğru olarak 0 kenar üretir; ancak sahnede çok parlak tekil bir yansıma varsa diğer gerçek kenarlar eşik altında kalabilir.
-- **Hesaplama Süreleri:** Kamera görüntüsünde ölçülen tam pipeline süreleri Prewitt için Gauss'suz 4.21 ms / Gauss'lu 4.44 ms; Sobel için Gauss'suz 4.14 ms / Gauss'lu 4.42 ms düzeyindedir. Her iki filtre de 3×3 konvolüsyon ve NumPy tabanlı ikili eşikleme adımlarına sahip olduğundan süreleri birbirine çok yakındır.
+- **Hesaplama Süreleri:** Kamera görüntüsünde ölçülen tam pipeline süreleri Prewitt için Gauss'suz 4.12 ms / Gauss'lu 4.34 ms; Sobel için Gauss'suz 4.13 ms / Gauss'lu 4.38 ms düzeyindedir. Her iki filtre de 3×3 konvolüsyon ve NumPy tabanlı ikili eşikleme adımlarına sahip olduğundan süreleri birbirine çok yakındır.
 
 Görsel: [Prewitt - Sobel Karşılaştırma Paneli](../cikti/karsilastirma_prewitt_sobel.png)
 
@@ -56,36 +56,36 @@ Canny algoritması (OpenCV `cv2.Canny`, histerezis eşikleri 50 ve 100, `L2gradi
 
 | Görüntü | Yöntem | Gauss Yumuşatma | Süre (ms) | Precision | Recall | F1 |
 |---|---|---|---|---|---|---|
-| kamera | Prewitt | Hayır | 4.206 | - | - | - |
-| kamera | Prewitt | Evet | 4.442 | - | - | - |
-| kamera | Sobel | Hayır | 4.145 | - | - | - |
-| kamera | Sobel | Evet | 4.423 | - | - | - |
-| kamera | Laplacian | Hayır | 9.770 | - | - | - |
-| kamera | Laplacian | Evet | 10.005 | - | - | - |
-| kamera | LoG | Evet | 10.029 | - | - | - |
-| kamera | Canny | Hayır | 3.041 | - | - | - |
-| kamera | Canny | Evet | 1.839 | - | - | - |
-| sentetik | Prewitt | Hayır | 4.303 | 1.0000 | 1.0000 | 1.0000 |
-| sentetik | Prewitt | Evet | 4.557 | 0.8707 | 1.0000 | 0.9309 |
-| sentetik | Sobel | Hayır | 4.304 | 1.0000 | 1.0000 | 1.0000 |
-| sentetik | Sobel | Evet | 4.430 | 0.8743 | 1.0000 | 0.9329 |
-| sentetik | Laplacian | Hayır | 8.754 | 1.0000 | 1.0000 | 1.0000 |
-| sentetik | Laplacian | Evet | 9.248 | 1.0000 | 1.0000 | 1.0000 |
-| sentetik | LoG | Evet | 9.914 | 0.7415 | 1.0000 | 0.8515 |
-| sentetik | Canny | Hayır | 0.827 | 1.0000 | 1.0000 | 1.0000 |
-| sentetik | Canny | Evet | 1.076 | 1.0000 | 1.0000 | 1.0000 |
-| sentetik_gurultulu | Prewitt | Hayır | 4.241 | 0.9995 | 1.0000 | 0.9998 |
-| sentetik_gurultulu | Prewitt | Evet | 4.389 | 0.8759 | 1.0000 | 0.9338 |
-| sentetik_gurultulu | Sobel | Hayır | 4.060 | 0.9998 | 1.0000 | 0.9999 |
-| sentetik_gurultulu | Sobel | Evet | 6.098 | 0.8779 | 1.0000 | 0.9350 |
-| sentetik_gurultulu | Laplacian | Hayır | 10.640 | 0.0270 | 1.0000 | 0.0526 |
-| sentetik_gurultulu | Laplacian | Evet | 12.387 | 0.0209 | 0.9996 | 0.0410 |
-| sentetik_gurultulu | LoG | Evet | 11.390 | 0.0196 | 1.0000 | 0.0385 |
-| sentetik_gurultulu | Canny | Hayır | 2.924 | 0.0712 | 1.0000 | 0.1329 |
-| sentetik_gurultulu | Canny | Evet | 1.362 | 1.0000 | 1.0000 | 1.0000 |
+| kamera | Prewitt | Hayır | 4.119 | - | - | - |
+| kamera | Prewitt | Evet | 4.345 | - | - | - |
+| kamera | Sobel | Hayır | 4.128 | - | - | - |
+| kamera | Sobel | Evet | 4.379 | - | - | - |
+| kamera | Laplacian | Hayır | 14.318 | - | - | - |
+| kamera | Laplacian | Evet | 15.251 | - | - | - |
+| kamera | LoG | Evet | 17.567 | - | - | - |
+| kamera | Canny | Hayır | 3.446 | - | - | - |
+| kamera | Canny | Evet | 2.450 | - | - | - |
+| sentetik | Prewitt | Hayır | 6.134 | 1.0000 | 1.0000 | 1.0000 |
+| sentetik | Prewitt | Evet | 8.080 | 0.8707 | 1.0000 | 0.9309 |
+| sentetik | Sobel | Hayır | 7.202 | 1.0000 | 1.0000 | 1.0000 |
+| sentetik | Sobel | Evet | 7.766 | 0.8743 | 1.0000 | 0.9329 |
+| sentetik | Laplacian | Hayır | 15.485 | 1.0000 | 1.0000 | 1.0000 |
+| sentetik | Laplacian | Evet | 10.967 | 1.0000 | 1.0000 | 1.0000 |
+| sentetik | LoG | Evet | 10.581 | 0.7415 | 1.0000 | 0.8515 |
+| sentetik | Canny | Hayır | 1.483 | 1.0000 | 1.0000 | 1.0000 |
+| sentetik | Canny | Evet | 1.589 | 1.0000 | 1.0000 | 1.0000 |
+| sentetik_gurultulu | Prewitt | Hayır | 4.971 | 0.9995 | 1.0000 | 0.9998 |
+| sentetik_gurultulu | Prewitt | Evet | 4.424 | 0.8759 | 1.0000 | 0.9338 |
+| sentetik_gurultulu | Sobel | Hayır | 4.553 | 0.9998 | 1.0000 | 0.9999 |
+| sentetik_gurultulu | Sobel | Evet | 4.553 | 0.8779 | 1.0000 | 0.9350 |
+| sentetik_gurultulu | Laplacian | Hayır | 14.333 | 0.0270 | 1.0000 | 0.0526 |
+| sentetik_gurultulu | Laplacian | Evet | 13.833 | 0.0209 | 0.9996 | 0.0410 |
+| sentetik_gurultulu | LoG | Evet | 12.434 | 0.0196 | 1.0000 | 0.0385 |
+| sentetik_gurultulu | Canny | Hayır | 2.741 | 0.0712 | 1.0000 | 0.1329 |
+| sentetik_gurultulu | Canny | Evet | 1.066 | 1.0000 | 1.0000 | 1.0000 |
 
 ### Sonuçların Değerlendirilmesi ve Sınırlılıklar
-1. **Çalışma Süreleri:** Aynı kamera görüntüsü ve Gauss=Evet varyantlarında (LoG dahili Gauss içerir), ölçülen pipeline sürelerine göre bu çalıştırmada en hızlı yöntem 1.84 ms ile **Canny** olmuştur. Canny'nin hız avantajı OpenCV'nin C++ düzeyindeki optimize kodundan kaynaklanmaktadır. Prewitt (4.44 ms) ve Sobel (4.42 ms) Python/NumPy ikili eşikleme adımlarıyla birbirine çok yakın seyrederken; piksel bazlı 8-komşuluk sıfır geçişi taraması yapan Laplacian (10.01 ms) ve LoG (10.03 ms) en yüksek işlem sürelerine sahiptir.
+1. **Çalışma Süreleri:** Aynı kamera görüntüsü ve Gauss=Evet varyantlarında (LoG dahili Gauss içerir), ölçülen pipeline sürelerine göre bu çalıştırmada en hızlı yöntem 2.45 ms ile **Canny** olmuştur. Canny'nin hız avantajı OpenCV'nin C++ düzeyindeki optimize kodundan kaynaklanmaktadır. Prewitt (4.34 ms) ve Sobel (4.38 ms) Python/NumPy ikili eşikleme adımlarıyla birbirine çok yakın seyrederken; piksel bazlı 8-komşuluk sıfır geçişi taraması yapan Laplacian (15.25 ms) ve LoG (17.57 ms) en yüksek işlem sürelerine sahiptir.
 2. **Doğruluk Analizi ve Gürültü Tepkisi:** Sentetik gürültülü ($\sigma=10$) görüntüde Canny'ye Gauss ön filtreleme uygulandığında Precision 0.0712'den 1.0000'ye, F1 skoru 0.1329'den 1.0000'e yükselmiştir. Ancak Gaussian yumuşatma her yöntemi iyileştirmemiştir: Prewitt'te F1 skoru 0.9998'den 0.9338'ye, Sobel'de 0.9999'den 0.9350'ye, Laplacian'da ise 0.0526'den 0.0410'ye gerilemiştir. Bu düşüş, Gauss filtresinin keskin sentetik sınırları yayarak kenar bölgesini 1 piksel tolerans bandının ötesine taşıması ve eşikleme ile birlikte sınır kalınlaşması oluşturmasıyla ilişkilendirilebilir; nedenleri ayırmak için ek deney gerekir. Canny'de ise NMS adımı kenarları yönlü maksimumda 1 piksele incelttiği için bu yayılma avantaja dönüşmektedir.
 3. **Sınırlılıklar:**
    - Precision, recall ve F1, bilinen sentetik referans kenar maskesine göre 1 piksel toleransla morfolojik genişletme kullanılarak ölçülmüştür; gerçek fotoğraflarda zemin gerçeği bulunmadığı için doğruluk uydurulmamıştır.

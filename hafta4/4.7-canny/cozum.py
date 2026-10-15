@@ -1,4 +1,4 @@
-"""EBLG351 Hafta 4 - Ödev 4.3: OpenCV Canny ve Tüm Yöntemlerin Karşılaştırılması.
+"""EBLG351 Hafta 4 - Ödev 4.7: OpenCV Canny ve Tüm Yöntemlerin Karşılaştırılması.
 
 Bu betik:
 1. OpenCV Canny kenar tespitini (histerezis 50/100, L2gradient) uygular.
@@ -30,7 +30,6 @@ for d in [str(repo_kok), str(hafta4_dizin)]:
 from hafta4.kenarlar import (
     canny,
     gradyan_ikili,
-    isaretli_goruntu_uint8,
     kenar_skoru,
     laplacian,
     log_filtresi,
@@ -55,6 +54,7 @@ def sure_olc(fonksiyon, tekrar: int = 20, isinma: int = 3) -> float:
 
 
 def calistir():
+    """Ödev 4.7 adımlarını yürütür, süre ve doğruluk ölçümlerini kaydeder."""
     cv2.setNumThreads(1)
     cikti_klasor = dosya_yolu.parent / "cikti"
     cikti_klasor.mkdir(parents=True, exist_ok=True)
@@ -157,9 +157,6 @@ def calistir():
     # Canny görsel çıktılarını kaydet
     kamera_canny_gauss = canny(kamera_img, yumusat=True)
     kamera_canny_nogauss = canny(kamera_img, yumusat=False)
-    sentetik_canny = canny(sentetik_img, yumusat=True)
-    gurultulu_canny = canny(gurultulu_img, yumusat=True)
-    gurultulu_canny_nogauss = canny(gurultulu_img, yumusat=False)
 
     cv2.imwrite(str(cikti_klasor / "kamera_canny_gauss.png"), kamera_canny_gauss)
     cv2.imwrite(str(cikti_klasor / "kamera_canny_nogauss.png"), kamera_canny_nogauss)
@@ -179,7 +176,7 @@ def calistir():
         gradyan_ikili(sobel(gurultulu_img, True)[2]),
         sifir_gecis(laplacian(gurultulu_img, True)),
         sifir_gecis(log_filtresi(gurultulu_img)),
-        gurultulu_canny,
+        canny(gurultulu_img, yumusat=True),
     ]
     basliklar = [
         "Kamera Orijinal",
@@ -223,7 +220,7 @@ def calistir():
     cv2.imwrite(str(cikti_klasor / "karsilastirma_tum_yontemler.png"), panel)
     cv2.imwrite(str(genel_cikti / "karsilastirma_tum_yontemler.png"), panel)
 
-    print("Ödev 4.3 (Canny ve Ölçümler) başarıyla tamamlandı.")
+    print("Ödev 4.7 (Canny ve Ölçümler) başarıyla tamamlandı.")
     print(f"Toplam {len(satirlar)} ölçüm satırı hafta4/cikti/olcumler.csv'ye yazıldı.")
 
 

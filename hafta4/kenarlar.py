@@ -360,3 +360,40 @@ def sentetik_veri_uret() -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     gurultulu = np.clip(sentetik.astype(np.float32) + gurultu, 0, 255).astype(np.uint8)
 
     return sentetik, referans, gurultulu
+
+
+def panel_olustur(gorseller: list, basliklar: list, grid_boyut: tuple) -> np.ndarray:
+    """Görselleri ve başlıklarını grid panel halinde birleştirir."""
+    satir, sutun = grid_boyut
+    h, w = gorseller[0].shape[:2]
+    banner_h = 30
+    hucre_h = h + banner_h
+    panel = np.full((satir * hucre_h, sutun * w, 3), 245, dtype=np.uint8)
+
+    for idx, (img, baslik) in enumerate(zip(gorseller, basliklar)):
+        r = idx // sutun
+        c = idx % sutun
+        y0 = r * hucre_h
+        x0 = c * w
+
+        cv2.rectangle(
+            panel, (x0, y0), (x0 + w, y0 + banner_h), (40, 40, 40), thickness=-1
+        )
+        cv2.putText(
+            panel,
+            baslik,
+            (x0 + 10, y0 + 20),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.55,
+            (255, 255, 255),
+            1,
+            cv2.LINE_AA,
+        )
+
+        if len(img.shape) == 2:
+            img_bgr = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+        else:
+            img_bgr = img
+        panel[y0 + banner_h : y0 + hucre_h, x0 : x0 + w] = img_bgr
+
+    return panel
