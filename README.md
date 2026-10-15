@@ -15,5 +15,8 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 3 | CLAHE | [odev3-clahe](hafta3/odev3-clahe/) | [cikti](hafta3/odev3-clahe/cikti/) |
 | 3 | 3x3 ortalama filtresi | [odev4-ortalama-filtre](hafta3/odev4-ortalama-filtre/) | [cikti](hafta3/odev4-ortalama-filtre/cikti/) |
 | 3 | 5x5 medyan filtresi (tuz-biber) | [odev5-medyan-filtre](hafta3/odev5-medyan-filtre/) | [cikti](hafta3/odev5-medyan-filtre/cikti/) |
+| 4 | Prewitt ve Sobel gradyan operatörleri | [4.1-prewitt-sobel](hafta4/4.1-prewitt-sobel/) | [cikti](hafta4/4.1-prewitt-sobel/cikti/) |
+| 4 | 3x3 Laplacian ve 7x7 analitik LoG filtresi | [4.2-laplacian-log](hafta4/4.2-laplacian-log/) | [cikti](hafta4/4.2-laplacian-log/cikti/) |
+| 4 | OpenCV Canny ve filtre başarım karşılaştırması | [4.3-canny](hafta4/4.3-canny/) | [cikti](hafta4/4.3-canny/cikti/) |
 
 Ortam: Python 3.14, OpenCV 4.15.0, NumPy.

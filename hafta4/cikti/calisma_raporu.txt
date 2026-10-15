@@ -1,0 +1,24 @@
+=================================================================
+EBLG351 Hafta 4 Kenar Algoritmaları — Başlatıldı: 2026-10-15 13:01:26
+=================================================================
+
+[1/4] Ödev 4.1 (Prewitt & Sobel) çalıştırılıyor...
+   -> 4.1 tamamlandı (0.86 sn)
+
+[2/4] Ödev 4.2 (Laplacian & LoG) çalıştırılıyor...
+   -> 4.2 tamamlandı (0.24 sn)
+
+[3/4] Ödev 4.3 (Canny & Ölçümler) çalıştırılıyor...
+   -> 4.3 tamamlandı (4.30 sn)
+
+[4/4] Raporlar üretiliyor (KARSILASTIRMA.md ve KARSILASTIRMA.pdf)...
+   -> Raporlar üretildi (0.71 sn)
+
+=================================================================
+KONTROL VE DOĞRULAMA:
+• Üretilen PNG görsel sayısı (hafta4/cikti/): 25 (Hedef: >= 12)
+• Ölçüm CSV dosyası mevcut mu: True (1307 bayt)
+• Markdown raporu mevcut mu: True
+• PDF raporu mevcut mu: True | Sayfa sayısı: 3 (Hedef: 3)
+• Toplam çalışma süresi: 6.12 sn
+=================================================================
