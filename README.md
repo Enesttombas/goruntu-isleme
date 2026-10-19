@@ -22,5 +22,6 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 4 | 3x3 Laplacian kenar tespiti | [4.5-laplacian](hafta4/4.5-laplacian/) | [cikti](hafta4/4.5-laplacian/cikti/) |
 | 4 | 7x7 analitik LoG filtresi | [4.6-log](hafta4/4.6-log/) | [cikti](hafta4/4.6-log/cikti/) |
 | 4 | OpenCV Canny ve filtre başarım ölçümleri | [4.7-canny](hafta4/4.7-canny/) | [cikti](hafta4/4.7-canny/cikti/) |
+| 5 | RGB kanal histogramları ve gri tonlamaya dönüşüm | [5.1-renk-kanallari-histogram](hafta5/5.1-renk-kanallari-histogram/) | [cikti](hafta5/5.1-renk-kanallari-histogram/cikti/) |
 
 Ortam: Python 3.14, OpenCV 4.15.0, NumPy.
