@@ -25,5 +25,6 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 5 | RGB kanal histogramları (OpenCV ve kendi) | [5.1-renk-kanallari-histogram](hafta5/5.1-renk-kanallari-histogram/) | [cikti](hafta5/5.1-renk-kanallari-histogram/cikti/) |
 | 5 | calcHist fonksiyonunu kendimiz yazma (OpenCV ile karşılaştırma) | [5.2-calchist-kendi-fonksiyonum](hafta5/5.2-calchist-kendi-fonksiyonum/) | [cikti](hafta5/5.2-calchist-kendi-fonksiyonum/cikti/) |
 | 5 | RGB→gri (OpenCV vs kendi) ve mutlak fark hatası | [5.3-gri-donusum-hata](hafta5/5.3-gri-donusum-hata/) | [cikti](hafta5/5.3-gri-donusum-hata/cikti/) |
+| 5 | Renk uzayı dönüşümleri (gri, YCrCb, YUV, XYZ, HSV, HLS) ve hata = 0 | [5.4-renk-uzayi-donusumu](hafta5/5.4-renk-uzayi-donusumu/) | [cikti](hafta5/5.4-renk-uzayi-donusumu/cikti/) |
 
 Ortam: Python 3.14, OpenCV 4.15.0, NumPy.

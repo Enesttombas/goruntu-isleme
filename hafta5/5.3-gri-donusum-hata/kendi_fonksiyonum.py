@@ -11,15 +11,12 @@ CIKTI = KLASOR / "cikti"
 
 
 def kendi_gri(bgr: np.ndarray) -> np.ndarray:
-    """Y = 0,299 R + 0,587 G + 0,114 B (ITU-R BT.601), 14 bit tamsayı ağırlıklarla.
-
-    OpenCV'nin iç yuvarlaması birebir aynı olmayabilir; küçük bir hata toplamı çıkabilir.
-    """
+    """Y = 0,299 R + 0,587 G + 0,114 B (ITU-R BT.601), 15 bit tamsayı ağırlıklarla."""
     mavi = bgr[:, :, 0].astype(np.int32)
     yesil = bgr[:, :, 1].astype(np.int32)
     kirmizi = bgr[:, :, 2].astype(np.int32)
-    toplam = 4899 * kirmizi + 9617 * yesil + 1868 * mavi  # 0,299 / 0,587 / 0,114 * 2^14
-    return ((toplam + (1 << 13)) >> 14).astype(np.uint8)
+    toplam = 9798 * kirmizi + 19235 * yesil + 3735 * mavi  # 0,299 / 0,587 / 0,114 * 2^15
+    return ((toplam + (1 << 14)) >> 15).astype(np.uint8)
 
 
 def mutlak_fark_toplami(a: np.ndarray, b: np.ndarray) -> int:

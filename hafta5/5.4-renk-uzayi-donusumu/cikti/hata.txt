@@ -1,0 +1,6 @@
+gri: hata toplami = 0, farkli piksel = 0, en buyuk fark = 0
+ycrcb: hata toplami = 0, farkli piksel = 0, en buyuk fark = 0
+yuv: hata toplami = 0, farkli piksel = 0, en buyuk fark = 0
+xyz: hata toplami = 0, farkli piksel = 0, en buyuk fark = 0
+hsv: hata toplami = 0, farkli piksel = 0, en buyuk fark = 0
+hls: hata toplami = 0, farkli piksel = 0, en buyuk fark = 0

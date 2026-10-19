@@ -12,4 +12,4 @@ python hafta5/5.3-gri-donusum-hata/opencv_ile.py
 python hafta5/5.3-gri-donusum-hata/kendi_fonksiyonum.py
 ```
 
-Sonuç: hata toplamı **111**. 111 piksel ±1 sapıyor; fark yalnızca yuvarlamadan gelir.
+Sonuç: hata toplamı **0**. OpenCV ağırlıkları 15 bit tamsayıya çevirip yuvarlıyor; aynı işlemi yaptığımızda her piksel birebir eşleşiyor.

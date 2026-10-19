@@ -1,1 +1,1 @@
-Hata (cv2.cvtColor ile kendi_gri arasındaki mutlak fark toplamı): 111
+Hata (cv2.cvtColor ile kendi_gri arasındaki mutlak fark toplamı): 0
