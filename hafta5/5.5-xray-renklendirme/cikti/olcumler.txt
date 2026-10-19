@@ -1,0 +1,5 @@
+image_0_1000.jpg: ort.mutlak fark=22.9, ort.deltaE=23.9, nesne orani=0.32, malzeme pikseli=119237, sinif uyumu=0.35 (turuncu 0.96, yesil 0.10, mavi 0.37)
+image_0_1072.jpg: ort.mutlak fark=22.6, ort.deltaE=25.8, nesne orani=0.48, malzeme pikseli=127470, sinif uyumu=0.67 (turuncu 0.71, yesil 0.24, mavi 0.95)
+image_0_1196.jpg: ort.mutlak fark=24.3, ort.deltaE=27.6, nesne orani=0.54, malzeme pikseli=144335, sinif uyumu=0.69 (turuncu 0.70, yesil 0.23, mavi 0.95)
+image_0_1212.jpg: ort.mutlak fark=17.1, ort.deltaE=19.7, nesne orani=0.42, malzeme pikseli=176190, sinif uyumu=0.80 (turuncu 0.95, yesil 0.17, mavi 0.96)
+image_0_1222.jpg: ort.mutlak fark=20.5, ort.deltaE=23.8, nesne orani=0.41, malzeme pikseli=134748, sinif uyumu=0.65 (turuncu 0.67, yesil 0.20, mavi 0.97)
