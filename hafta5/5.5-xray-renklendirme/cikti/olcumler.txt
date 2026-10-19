@@ -1,5 +1,7 @@
-image_0_1000.jpg: ort.mutlak fark=22.9, ort.deltaE=23.9, nesne orani=0.32, malzeme pikseli=119237, sinif uyumu=0.35 (turuncu 0.96, yesil 0.10, mavi 0.37)
-image_0_1072.jpg: ort.mutlak fark=22.6, ort.deltaE=25.8, nesne orani=0.48, malzeme pikseli=127470, sinif uyumu=0.67 (turuncu 0.71, yesil 0.24, mavi 0.95)
-image_0_1196.jpg: ort.mutlak fark=24.3, ort.deltaE=27.6, nesne orani=0.54, malzeme pikseli=144335, sinif uyumu=0.69 (turuncu 0.70, yesil 0.23, mavi 0.95)
-image_0_1212.jpg: ort.mutlak fark=17.1, ort.deltaE=19.7, nesne orani=0.42, malzeme pikseli=176190, sinif uyumu=0.80 (turuncu 0.95, yesil 0.17, mavi 0.96)
-image_0_1222.jpg: ort.mutlak fark=20.5, ort.deltaE=23.8, nesne orani=0.41, malzeme pikseli=134748, sinif uyumu=0.65 (turuncu 0.67, yesil 0.20, mavi 0.97)
+TUMU (5 görüntü): ort.mutlak fark=16.3, ort.deltaE=18.9, malzeme pikseli=437791, sınıf uyumu=0.64 (turuncu 0.90, yeşil 0.18, mavi 0.68)
+
+image_0_1000.jpg 789x478: mutlak=22.9, deltaE=23.9, nesne=0.32, sinif uyumu=0.35 (turuncu 0.96, yesil 0.10, mavi 0.37)
+image_0_1054.jpg 151x429: mutlak=10.2, deltaE=13.3, nesne=0.17, sinif uyumu=0.86 (turuncu 1.00, yesil 0.10, mavi 0.86)
+image_0_1071.jpg 149x266: mutlak=8.8, deltaE=12.0, nesne=0.13, sinif uyumu=0.91 (turuncu nan, yesil nan, mavi 0.91)
+image_0_1072.jpg 581x478: mutlak=22.6, deltaE=25.8, nesne=0.48, sinif uyumu=0.67 (turuncu 0.71, yesil 0.24, mavi 0.95)
+image_0_1212.jpg 793x584: mutlak=17.1, deltaE=19.7, nesne=0.42, sinif uyumu=0.80 (turuncu 0.95, yesil 0.17, mavi 0.96)

@@ -11,7 +11,8 @@ sys.path.insert(0, str(KLASOR.parent))
 from xray_palet import palet_olustur  # noqa: E402
 
 GIRDI = KLASOR.parent / "girdi" / "ThreatsRGB"
-CIKTI = KLASOR / "cikti"
+CIKTI = KLASOR / "cikti" / "kendi"
+SINIFLAR = ("diger", "turuncu", "yesil", "mavi")
 
 
 def kendi_gri(bgr: np.ndarray) -> np.ndarray:
@@ -40,25 +41,27 @@ def olc(orijinal: np.ndarray, boyali: np.ndarray, gri: np.ndarray) -> dict:
     lab_o = cv2.cvtColor(orijinal.astype(np.float32) / 255, cv2.COLOR_BGR2Lab)
     lab_b = cv2.cvtColor(boyali.astype(np.float32) / 255, cv2.COLOR_BGR2Lab)
     delta_e = np.sqrt(((lab_o - lab_b) ** 2).sum(axis=2))
-
     nesne = gri < 230  # boşluğu (parlak zemin) dışarıda bırak
-    doygun = cv2.cvtColor(orijinal, cv2.COLOR_BGR2HSV)[:, :, 1] > 60
-    maske = nesne & doygun  # orijinalde malzeme rengi taşıyan pikseller
+    maske = nesne & (cv2.cvtColor(orijinal, cv2.COLOR_BGR2HSV)[:, :, 1] > 60)  # orijinalde malzeme rengi olan pikseller
     s_o, s_b = renk_sinifi(orijinal)[maske], renk_sinifi(boyali)[maske]
-    uyum = float((s_o == s_b).mean()) if maske.any() else float("nan")
-    # Sınıf bazında: orijinalde X olan piksellerin ne kadarında biz de X dedik.
-    sinif_uyum = {
-        ad: (float((s_b[s_o == k] == k).mean()) if (s_o == k).any() else float("nan"))
-        for k, ad in ((1, "turuncu"), (2, "yesil"), (3, "mavi"))
-    }
+    karisiklik = np.zeros((4, 4), dtype=np.int64)  # satır: orijinal sınıfı, sütun: bizim sınıfımız
+    np.add.at(karisiklik, (s_o, s_b), 1)
     return {
-        "ortalama_mutlak_fark": float(np.abs(orijinal.astype(np.int32) - boyali.astype(np.int32)).mean()),
-        "ortalama_delta_e": float(delta_e.mean()),
-        "nesne_orani": float(nesne.mean()),
-        "malzeme_pikseli": int(maske.sum()),
-        "genel_sinif_uyumu": uyum,
-        "sinif_uyumu": sinif_uyum,
+        "mutlak": float(np.abs(orijinal.astype(np.int32) - boyali.astype(np.int32)).mean()),
+        "delta_e": float(delta_e.mean()),
+        "nesne": float(nesne.mean()),
+        "karisiklik": karisiklik,
     }
+
+
+def uyum_oranlari(karisiklik: np.ndarray) -> tuple[float, dict]:
+    toplam = karisiklik.sum()
+    genel = float(np.trace(karisiklik) / toplam) if toplam else float("nan")
+    sinif = {
+        SINIFLAR[k]: (float(karisiklik[k, k] / karisiklik[k].sum()) if karisiklik[k].sum() else float("nan"))
+        for k in (1, 2, 3)
+    }
+    return genel, sinif
 
 
 def yan_yana(orijinal, gri, boyali) -> np.ndarray:
@@ -67,36 +70,47 @@ def yan_yana(orijinal, gri, boyali) -> np.ndarray:
     for resim, yazi in ((orijinal, "Orijinal"), (gri3, "Gri"), (boyali, "Bizim renklendirme")):
         kopya = resim.copy()
         cv2.rectangle(kopya, (0, 0), (kopya.shape[1], 30), (255, 255, 255), -1)
-        cv2.putText(kopya, yazi, (8, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2)
+        cv2.putText(kopya, yazi, (6, 22), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 0), 1)
         parcalar.append(kopya)
     return np.hstack(parcalar)
 
 
+def ozet_satiri(ad: str, sonuclar: list) -> str:
+    karisiklik = sum(s["karisiklik"] for s in sonuclar)
+    genel, sinif = uyum_oranlari(karisiklik)
+    return (
+        f"{ad} ({len(sonuclar)} görüntü): ort.mutlak fark={np.mean([s['mutlak'] for s in sonuclar]):.1f}, "
+        f"ort.deltaE={np.mean([s['delta_e'] for s in sonuclar]):.1f}, malzeme pikseli={int(karisiklik.sum())}, "
+        f"sınıf uyumu={genel:.2f} (turuncu {sinif['turuncu']:.2f}, yeşil {sinif['yesil']:.2f}, mavi {sinif['mavi']:.2f})"
+    )
+
+
 def calistir() -> None:
-    CIKTI.mkdir(exist_ok=True)
+    CIKTI.mkdir(parents=True, exist_ok=True)
     palet = palet_olustur()
     dosyalar = sorted(GIRDI.glob("*.jpg"))
     if not dosyalar:
         raise FileNotFoundError(f"Görüntü yok: {GIRDI}")
-    satirlar = []
+    satirlar, sonuclar = [], {}
     for dosya in dosyalar:
         orijinal = cv2.imread(str(dosya), cv2.IMREAD_COLOR)
         if orijinal is None:
             raise FileNotFoundError(f"Okunamadı: {dosya}")
         gri = kendi_gri(orijinal)
         boyali = kendi_renklendir(gri, palet)
-        cv2.imwrite(str(CIKTI / f"{dosya.stem}_gri_kendi.png"), gri)
-        cv2.imwrite(str(CIKTI / f"{dosya.stem}_renkli_kendi.png"), boyali)
+        cv2.imwrite(str(CIKTI / f"{dosya.stem}_gri.png"), gri)
+        cv2.imwrite(str(CIKTI / f"{dosya.stem}_renkli.png"), boyali)
         cv2.imwrite(str(CIKTI / f"{dosya.stem}_karsilastirma.png"), yan_yana(orijinal, gri, boyali))
         o = olc(orijinal, boyali, gri)
-        su = o["sinif_uyumu"]
+        sonuclar[dosya.stem] = o
+        genel, sinif = uyum_oranlari(o["karisiklik"])
         satirlar.append(
-            f"{dosya.name}: ort.mutlak fark={o['ortalama_mutlak_fark']:.1f}, ort.deltaE={o['ortalama_delta_e']:.1f}, "
-            f"nesne orani={o['nesne_orani']:.2f}, malzeme pikseli={o['malzeme_pikseli']}, "
-            f"sinif uyumu={o['genel_sinif_uyumu']:.2f} (turuncu {su['turuncu']:.2f}, yesil {su['yesil']:.2f}, mavi {su['mavi']:.2f})"
+            f"{dosya.name} {orijinal.shape[1]}x{orijinal.shape[0]}: mutlak={o['mutlak']:.1f}, deltaE={o['delta_e']:.1f}, "
+            f"nesne={o['nesne']:.2f}, sinif uyumu={genel:.2f} (turuncu {sinif['turuncu']:.2f}, yesil {sinif['yesil']:.2f}, mavi {sinif['mavi']:.2f})"
         )
-    (CIKTI / "olcumler.txt").write_text("\n".join(satirlar) + "\n", encoding="utf-8")
-    print("\n".join(satirlar))
+    ozet = [ozet_satiri("TUMU", list(sonuclar.values()))]
+    (CIKTI.parent / "olcumler.txt").write_text("\n".join(ozet + [""] + satirlar) + "\n", encoding="utf-8")
+    print("\n".join(ozet))
 
 
 if __name__ == "__main__":
