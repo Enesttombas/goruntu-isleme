@@ -1,0 +1,3 @@
+Görüntü: 512x512, 262144 piksel
+Hata (cv2.cvtColor ile kendi_gri arasındaki mutlak fark toplamı): 111
+Bilgi: ondalık yuvarlamalı sürümle fark toplamı: 172

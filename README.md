@@ -23,5 +23,7 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 4 | 7x7 analitik LoG filtresi | [4.6-log](hafta4/4.6-log/) | [cikti](hafta4/4.6-log/cikti/) |
 | 4 | OpenCV Canny ve filtre başarım ölçümleri | [4.7-canny](hafta4/4.7-canny/) | [cikti](hafta4/4.7-canny/cikti/) |
 | 5 | RGB kanal histogramları ve gri tonlamaya dönüşüm | [5.1-renk-kanallari-histogram](hafta5/5.1-renk-kanallari-histogram/) | [cikti](hafta5/5.1-renk-kanallari-histogram/cikti/) |
+| 5 | Kendi calcHist fonksiyonu | [5.2-calchist-kendi-fonksiyonum](hafta5/5.2-calchist-kendi-fonksiyonum/) | [cikti](hafta5/5.2-calchist-kendi-fonksiyonum/cikti/) |
+| 5 | RGB→gri (OpenCV vs kendi) ve mutlak fark hatası | [5.3-gri-donusum-hata](hafta5/5.3-gri-donusum-hata/) | [cikti](hafta5/5.3-gri-donusum-hata/cikti/) |
 
 Ortam: Python 3.14, OpenCV 4.15.0, NumPy.

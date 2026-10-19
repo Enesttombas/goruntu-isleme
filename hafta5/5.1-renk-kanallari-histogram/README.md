@@ -10,7 +10,7 @@ Depo kökünden:
 python hafta5/5.1-renk-kanallari-histogram/cozum.py
 ```
 
-Girdi: [astronot.png](girdi/astronot.png). Çıktılar: [kırmızı](cikti/histogram_kirmizi.png), [yeşil](cikti/histogram_yesil.png), [mavi](cikti/histogram_mavi.png) histogramları ve [gri fotoğraf](cikti/astronot_gri.png).
+Girdi: [astronot.png](../girdi/astronot.png). Çıktılar: [kırmızı](cikti/histogram_kirmizi.png), [yeşil](cikti/histogram_yesil.png), [mavi](cikti/histogram_mavi.png) histogramları ve [gri fotoğraf](cikti/astronot_gri.png).
 
 OpenCV görüntüyü BGR sırasıyla okur; kırmızı için kanal 2, yeşil için kanal 1, mavi için kanal 0 kullanılır. Histogramın yatay ekseni 0–255 yoğunluk, dikey ekseni o yoğunluktaki piksel sayısıdır. Üç kanalın her birinin toplamı fotoğrafın 512 × 512 = 262.144 pikseline eşittir.
 

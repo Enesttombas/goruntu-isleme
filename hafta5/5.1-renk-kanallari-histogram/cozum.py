@@ -7,7 +7,7 @@ import numpy as np
 
 
 KLASOR = Path(__file__).resolve().parent
-GIRDI = KLASOR / "girdi" / "astronot.png"
+GIRDI = KLASOR.parent / "girdi" / "astronot.png"
 CIKTI = KLASOR / "cikti"
 
 
