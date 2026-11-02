@@ -1,0 +1,7 @@
+Test 1 - sudoku.png: 7129 kenar pikseli x 180 theta
+  CPU ile GPU oylama matrisi mutlak fark toplamı: 0
+  Süre (ortanca, 20 tekrar): CPU 120.7 ms, GPU 3.3 ms (yalnız çekirdek 0.063 ms), hızlanma 37x
+  GPU oylamasıyla eşik 100: 14 doğru
+Test 2 - sudoku.png, median'sız Canny: 29537 kenar pikseli x 180 theta
+  CPU ile GPU oylama matrisi mutlak fark toplamı: 0
+  Süre (ortanca, 20 tekrar): CPU 518.3 ms, GPU 8.3 ms (yalnız çekirdek 0.201 ms), hızlanma 62x

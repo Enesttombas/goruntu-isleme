@@ -27,5 +27,11 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 5 | RGB→gri (OpenCV vs kendi) ve mutlak fark hatası | [5.3-gri-donusum-hata](hafta5/5.3-gri-donusum-hata/) | [cikti](hafta5/5.3-gri-donusum-hata/cikti/) |
 | 5 | Renk uzayı dönüşümleri (gri, YCrCb, YUV, XYZ, HSV, HLS) ve hata = 0 | [5.4-renk-uzayi-donusumu](hafta5/5.4-renk-uzayi-donusumu/) | [cikti](hafta5/5.4-renk-uzayi-donusumu/cikti/) |
 | 5 | X-ray görüntülerini griye çevirip renklendirme, palet yorumu | [5.5-xray-renklendirme](hafta5/5.5-xray-renklendirme/) | [cikti](hafta5/5.5-xray-renklendirme/cikti/) |
+| 6 | Canny + median, `HoughLines` ve `HoughLinesP` | [6.1-hough-line-opencv](hafta6/6.1-hough-line-opencv/) | [cikti](hafta6/6.1-hough-line-opencv/cikti/) |
+| 6 | Doğru bulan Hough, kendi kodumla, oylama matrisi resmi | [6.2-hough-line-kendi](hafta6/6.2-hough-line-kendi/) | [cikti](hafta6/6.2-hough-line-kendi/cikti/) |
+| 6 | Canny + median, `HoughCircles` | [6.3-hough-circles-opencv](hafta6/6.3-hough-circles-opencv/) | [cikti](hafta6/6.3-hough-circles-opencv/cikti/) |
+| 6 | Çember bulan Hough, kendi kodumla, 3B oylama | [6.4-hough-circle-kendi](hafta6/6.4-hough-circle-kendi/) | [cikti](hafta6/6.4-hough-circle-kendi/cikti/) |
+| 6 | Eş merkezli çember bulan Hough, gradyan yönünde oylama | [6.5-es-merkezli-cember-kendi](hafta6/6.5-es-merkezli-cember-kendi/) | [cikti](hafta6/6.5-es-merkezli-cember-kendi/cikti/) |
+| 6 | Hough Line CUDA ile paralel, CPU ile birebir test | [6.6-hough-line-cuda](hafta6/6.6-hough-line-cuda/) | [cikti](hafta6/6.6-hough-line-cuda/cikti/) |
 
 Ortam: Python 3.14, OpenCV 4.15.0, NumPy.
