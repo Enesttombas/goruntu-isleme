@@ -33,5 +33,15 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 6 | Çember bulan Hough, kendi kodumla, 3B oylama | [6.4-hough-circle-kendi](hafta6/6.4-hough-circle-kendi/) | [cikti](hafta6/6.4-hough-circle-kendi/cikti/) |
 | 6 | Eş merkezli çember bulan Hough, gradyan yönünde oylama | [6.5-es-merkezli-cember-kendi](hafta6/6.5-es-merkezli-cember-kendi/) | [cikti](hafta6/6.5-es-merkezli-cember-kendi/cikti/) |
 | 6 | Hough Line CUDA ile paralel, CPU ile birebir test | [6.6-hough-line-cuda](hafta6/6.6-hough-line-cuda/) | [cikti](hafta6/6.6-hough-line-cuda/cikti/) |
+| 7 | Faz, genlik, frekans/periyot ile vektörü sinüsle doldurma | [7.1-sinus-vektor](hafta7/7.1-sinus-vektor/) | [cikti](hafta7/7.1-sinus-vektor/cikti/) |
+| 7 | Genliğe ve orana göre vektöre gürültü ekleme | [7.2-gurultu-ekleme](hafta7/7.2-gurultu-ekleme/) | [cikti](hafta7/7.2-gurultu-ekleme/cikti/) |
+| 7 | Gürültülü sinyali Gauss ve medyan filtreyle temizleme | [7.3-gauss-medyan-filtre](hafta7/7.3-gauss-medyan-filtre/) | [cikti](hafta7/7.3-gauss-medyan-filtre/cikti/) |
+| 7 | DFT ve kendi FFT'miz, harmonik vektörü | [7.4-dft-harmonik](hafta7/7.4-dft-harmonik/) | [cikti](hafta7/7.4-dft-harmonik/cikti/) |
+| 7 | 50 Hz/A=12 ve 30 Hz/A=5 sinyaller, toplamın DFT analizi | [7.5-iki-sinyal-toplam](hafta7/7.5-iki-sinyal-toplam/) | [cikti](hafta7/7.5-iki-sinyal-toplam/cikti/) |
+| 7 | Eşik altı harmonikleri silen frekans filtresi | [7.6-frekans-filtresi](hafta7/7.6-frekans-filtresi/) | [cikti](hafta7/7.6-frekans-filtresi/cikti/) |
+| 7 | 2 boyutlu DFT, harmonik matris | [7.7-2b-dft](hafta7/7.7-2b-dft/) | [cikti](hafta7/7.7-2b-dft/cikti/) |
+| 7 | Gauss ve tuz-biber gürültü, harmonik matris karşılaştırması | [7.8-resim-gurultu](hafta7/7.8-resim-gurultu/) | [cikti](hafta7/7.8-resim-gurultu/cikti/) |
+| 7 | Ters DFT ile geri dönme, ZNCC ve benzerlik metrikleri raporu | [7.9-ters-dft-zncc](hafta7/7.9-ters-dft-zncc/) | [cikti](hafta7/7.9-ters-dft-zncc/cikti/) |
+| 7 | Alçak, yüksek, bant geçiren ve bant durduran filtreler | [7.10-frekans-filtreleri](hafta7/7.10-frekans-filtreleri/) | [cikti](hafta7/7.10-frekans-filtreleri/cikti/) |
 
-Ortam: Python 3.14, OpenCV 4.15.0, NumPy.
+Ortam: Python 3.14, OpenCV 4.15.0, NumPy, Matplotlib (7. hafta grafikleri).
