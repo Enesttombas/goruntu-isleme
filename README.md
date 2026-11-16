@@ -43,5 +43,10 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 7 | Gauss ve tuz-biber gürültü, harmonik matris karşılaştırması | [7.8-resim-gurultu](hafta7/7.8-resim-gurultu/) | [cikti](hafta7/7.8-resim-gurultu/cikti/) |
 | 7 | Ters DFT ile geri dönme, ZNCC ve benzerlik metrikleri raporu | [7.9-ters-dft-zncc](hafta7/7.9-ters-dft-zncc/) | [cikti](hafta7/7.9-ters-dft-zncc/cikti/) |
 | 7 | Alçak, yüksek, bant geçiren ve bant durduran filtreler | [7.10-frekans-filtreleri](hafta7/7.10-frekans-filtreleri/) | [cikti](hafta7/7.10-frekans-filtreleri/cikti/) |
+| 9 | Renk uzayları: kaynaklı, görselli ders notu ve karşılaştırma | [9.1-renk-uzaylari](hafta9/9.1-renk-uzaylari/) | [PDF ders notu](hafta9/9.1-renk-uzaylari/cikti/renk_uzaylari_ders_notu.pdf) |
+| 9 | 1000x1000 renkli BMP, gri dönüşüm ve disk boyutu | [9.2-bmp-gri](hafta9/9.2-bmp-gri/) | [cikti](hafta9/9.2-bmp-gri/cikti/) |
+| 9 | 8K üç kanallı BMP'de piksel değerlerini ikiye bölme, işlem süresi | [9.3-8k-piksel-bolme](hafta9/9.3-8k-piksel-bolme/) | [cikti](hafta9/9.3-8k-piksel-bolme/cikti/) |
+| 9 | HSV, HSI, YUV ve CIE Lab dönüşümlerini BMP kaydetme | [9.4-renk-uzayi-donusumu](hafta9/9.4-renk-uzayi-donusumu/) | [cikti](hafta9/9.4-renk-uzayi-donusumu/cikti/) |
+| 9 | RGB, YCbCr ve HSV'de ten rengi; ten dışını tam kırmızı gösterme | [9.5-ten-rengi](hafta9/9.5-ten-rengi/) | [cikti](hafta9/9.5-ten-rengi/cikti/) |
 
-Ortam: Python 3.14, OpenCV 4.15.0, NumPy, Matplotlib (7. hafta grafikleri).
+Ortam: Python 3.14, OpenCV, NumPy, Matplotlib (7. hafta grafikleri). 9. hafta çıktıları Python 3.14.4, OpenCV 4.14.0 ve NumPy 2.4.6 ile üretildi.

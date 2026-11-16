@@ -1,0 +1,9 @@
+Çözünürlük: 1000 x 1000 = 1.000.000 piksel.
+uint8: kanal başına 1 bayt; renkli BGR 3 kanal, gri 1 kanal.
+Ham piksel verisi: renkli 3.000.000 bayt, gri 1.000.000 bayt.
+BMP satırları 4 baytın katına tamamlanır: ((genişlik * kanal + 3) // 4) * 4.
+Bu genişlikte renkli 3000, gri 1000 bayt/satır; ek satır dolgusu 0 bayt.
+Gri BMP paleti: 256 giriş x 4 bayt = 1024 bayt (B, G, R, ayrılmış bayt).
+Renkli: başlık 54 + palet 0 + satır 3000 x 1000 = 3000054 bayt; diskte 3000054 bayt.
+Gri: başlık 54 + palet 1024 + satır 1000 x 1000 = 1001078 bayt; diskte 1001078 bayt.
+Gerçek renkli/gri disk boyutu oranı: 2.996823424. Ham piksel oranı 3 olsa da başlık ve palet nedeniyle disk oranı tam 3 değildir.

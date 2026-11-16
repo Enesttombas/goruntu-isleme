@@ -1,0 +1,16 @@
+Çözünürlük: 7680 x 4320; uint8, 3 kanal (BGR).
+Python: 3.14.4; OpenCV: 4.14.0; NumPy: 2.4.6
+Isınma: 1; ölçüm sayısı: 7; saat: perf_counter_ns.
+Her tur aynı orijinalden ayrılmış çıktı tamponuna tamsayı bölme.
+Üretme, okuma, yazma, tampon hazırlığı, doğrulama ve önizleme ölçüm dışında.
+Ölçüm 1: 9412900 ns = 9.412900 ms
+Ölçüm 2: 9718300 ns = 9.718300 ms
+Ölçüm 3: 9576200 ns = 9.576200 ms
+Ölçüm 4: 9107500 ns = 9.107500 ms
+Ölçüm 5: 8642400 ns = 8.642400 ms
+Ölçüm 6: 8642000 ns = 8.642000 ms
+Ölçüm 7: 8715900 ns = 8.715900 ms
+Medyan: 9107500 ns = 9.107500 ms
+Minimum: 8642000 ns = 8.642000 ms
+Maksimum: 9718300 ns = 9.718300 ms
+Tam x//2 doğrulaması: bütün satırlar ve üç kanal, 64 satırlık bloklarla geçti.
