@@ -48,5 +48,6 @@ Python + OpenCV. Her haftanın kodu, girdisi ve çıktıları kendi klasöründe
 | 9 | 8K üç kanallı BMP'de piksel değerlerini ikiye bölme, işlem süresi | [9.3-8k-piksel-bolme](hafta9/9.3-8k-piksel-bolme/) | [cikti](hafta9/9.3-8k-piksel-bolme/cikti/) |
 | 9 | HSV, HSI, YUV ve CIE Lab dönüşümlerini BMP kaydetme | [9.4-renk-uzayi-donusumu](hafta9/9.4-renk-uzayi-donusumu/) | [cikti](hafta9/9.4-renk-uzayi-donusumu/cikti/) |
 | 9 | RGB, YCbCr ve HSV'de ten rengi; ten dışını tam kırmızı gösterme | [9.5-ten-rengi](hafta9/9.5-ten-rengi/) | [cikti](hafta9/9.5-ten-rengi/cikti/) |
+| 10 | StereoBM, StereoSGBM, kendi blok eşleştirme, SAD/SSD/ZNCC ve SGBC | [Kod ve ödev açıklaması](hafta10/) | [Karşılaştırma görselleri](hafta10/cikti/) |
 
 Ortam: Python 3.14, OpenCV, NumPy, Matplotlib (7. hafta grafikleri). 9. hafta çıktıları Python 3.14.4, OpenCV 4.14.0 ve NumPy 2.4.6 ile üretildi.
